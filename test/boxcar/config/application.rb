@@ -21,7 +21,7 @@ require 'rails/test_unit/railtie'
 Bundler.require(*Rails.groups)
 require 'scrapbook'
 
-module Dummy
+module Boxcar
   class Application < Rails::Application
     config.load_defaults Rails::VERSION::STRING.to_f
 

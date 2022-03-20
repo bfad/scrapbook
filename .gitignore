@@ -4,7 +4,7 @@
 /log/*.log
 /pkg/
 /tmp/
-/test/dummy/log/*.log
-/test/dummy/tmp/
+/test/boxcar/log/*.log
+/test/boxcar/tmp/
 /spec/examples.txt
 Gemfile.lock
