@@ -1,8 +1,10 @@
 /.bundle/
+/.ruby-version
 /doc/
 /log/*.log
 /pkg/
 /tmp/
 /test/dummy/log/*.log
 /test/dummy/tmp/
+/spec/examples.txt
 Gemfile.lock
