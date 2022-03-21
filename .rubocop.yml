@@ -5,3 +5,6 @@ require:
 
 AllCops:
   NewCops: enable
+
+Style/IfUnlessModifier:
+  Enabled: false
