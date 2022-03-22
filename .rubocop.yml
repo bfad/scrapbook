@@ -6,5 +6,19 @@ require:
 AllCops:
   NewCops: enable
 
+Metrics/BlockLength:
+  ExcludedMethods:
+    - describe
+    - context
+
+RSpec/ExampleLength:
+  CountAsOne:
+     - array
+     - hash
+     - heredoc
+
+RSpec/RepeatedExampleGroupBody:
+  Enabled: false
+
 Style/IfUnlessModifier:
   Enabled: false
