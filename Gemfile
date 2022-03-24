@@ -11,6 +11,7 @@ gem 'propshaft'
 # Start debugger with binding.b or debugger [https://github.com/ruby/debug]
 gem 'debug', '>= 1.0.0'
 
+gem 'rails-controller-testing'
 gem 'rspec'
 gem 'rspec-rails'
 

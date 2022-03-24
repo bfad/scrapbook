@@ -1,2 +1,15 @@
-<h1>Hello, world!</h1>
-<p><%= test_method %>
+<% path_from_pages =
+    pathname == scrapbook.pages_pathname ? '' :
+    pathname.relative_path_from(scrapbook.pages_pathname)
+%><header>/<%= path_from_pages %></header>
+<%
+folders, templates = pathname.children.each_with_object([[], []]) do |pname, acc|
+  if pname.directory?
+    acc[0] << pname.basename
+  else
+    acc[1] << pname.basename.sub(/\..*\z/, '')
+  end
+end
+%>
+<ul><% folders.each do |folder| %><li><%= link_to "#{folder}/", short_page_path("#{path_from_pages}/#{folder}".delete_prefix('/')).gsub('%2F', '/') %></li><% end %></ul>
+<ul><% templates.each do |template| %><li><%= link_to template, short_page_path("#{path_from_pages}/#{template}".delete_prefix('/')).gsub('%2F', '/') %></li><% end %></ul>
