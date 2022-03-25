@@ -19,7 +19,7 @@ Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 
 Metrics/BlockLength:
-  ExcludedMethods:
+  IgnoredMethods:
     - describe
     - context
 
@@ -34,6 +34,10 @@ RSpec/MultipleExpectations:
 
 RSpec/RepeatedExampleGroupBody:
   Enabled: false
+
+Style/BlockDelimiters:
+  BracesRequiredMethods:
+    - expect
 
 Style/IfUnlessModifier:
   Enabled: false

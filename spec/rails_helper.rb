@@ -55,7 +55,14 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
+  config.include CustomHelpers
+
   config.before :each, type: :view do
     controller.class.include Scrapbook::Engine.routes.url_helpers
+    view.class.include Scrapbook::Engine.helpers
+  end
+
+  config.before :each, type: :helper do
+    helper.class.include Scrapbook::Engine.routes.url_helpers
   end
 end

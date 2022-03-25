@@ -1,15 +1,12 @@
-<% path_from_pages =
-    pathname == scrapbook.pages_pathname ? '' :
-    pathname.relative_path_from(scrapbook.pages_pathname)
-%><header>/<%= path_from_pages %></header>
+<header>/<%= scrapbook.relative_page_path_for(pathname) %></header>
 <%
 folders, templates = pathname.children.each_with_object([[], []]) do |pname, acc|
   if pname.directory?
-    acc[0] << pname.basename
+    acc[0] << pname
   else
-    acc[1] << pname.basename.sub(/\..*\z/, '')
+    acc[1] << pname
   end
 end
 %>
-<ul><% folders.each do |folder| %><li><%= link_to "#{folder}/", short_page_path("#{path_from_pages}/#{folder}".delete_prefix('/')).gsub('%2F', '/') %></li><% end %></ul>
-<ul><% templates.each do |template| %><li><%= link_to template, short_page_path("#{path_from_pages}/#{template}".delete_prefix('/')).gsub('%2F', '/') %></li><% end %></ul>
+<ul><% folders.each do |folder| %><li><%= short_link_to_folder folder, scrapbook %></li><% end %></ul>
+<ul><% templates.each do |template| %><li><%= short_link_to_file template, scrapbook %></li><% end %></ul>
