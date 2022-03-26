@@ -36,4 +36,14 @@ RSpec.describe 'scrapbook/pages/index' do
       expect(parsed.at(%[li > a:contains("#{value}")])).to be_present
     end
   end
+
+  it "doesn't render hidden files (files starting with a period)" do
+    scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
+    pathname = scrapbook.pages_pathname.join('components/folder_name/sub_stuff')
+    render template: self.class.top_level_description,
+      locals: {scrapbook: scrapbook, pathname: pathname}
+
+    expect(pathname.join('.keep')).to be_exist
+    expect(parsed.at('li > a')).not_to be_present
+  end
 end

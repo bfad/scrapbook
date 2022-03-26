@@ -1,6 +1,7 @@
 <header>/<%= scrapbook.relative_page_path_for(pathname) %></header>
 <%
 folders, templates = pathname.children.each_with_object([[], []]) do |pname, acc|
+  next if pname.basename.to_s.start_with?('.')
   if pname.directory?
     acc[0] << pname
   else
