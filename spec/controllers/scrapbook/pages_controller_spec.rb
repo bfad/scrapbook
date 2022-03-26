@@ -71,4 +71,77 @@ RSpec.describe Scrapbook::PagesController, :aggregate_failures do
       end
     end
   end
+
+  describe '#show' do
+    context 'when short path or pages path is used' do
+      it 'renders the specified template for the default scrapbook' do
+        get :show, params: {id: 'welcome'}
+        expect(response).to render_template('welcome')
+      end
+
+      it 'renders the matching template for a request with an "html" extension in the default scrapbook' do
+        get :show, params: {id: 'welcome.html'}
+        expect(response).to render_template('welcome')
+      end
+
+      it 'renders a directory listing for the specified folder in the default scrapbook' do
+        get :show, params: {id: 'components/folder_name/sub_stuff'}
+        expect(response).to render_template('scrapbook/pages/index')
+      end
+
+      it 'renders the specified file in the default scrapbook' do
+        get :show, params: {id: 'assets/fireworks.jpg'}
+        expect(response).to have_http_status(:ok)
+        expect(response).to render_template(nil)
+      end
+
+      it 'prefers to render the template over a directory or file' do
+        get :show, params: {id: 'components/folder_name'}
+        expect(response).to render_template('components/folder_name')
+      end
+
+      it "returns a 404 error when the path doesn't exist" do
+        get :show, params: {id: 'missing'}
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context 'with book in the path' do
+      it 'renders the specified template for the default scrapbook' do
+        get :show, params: {book: 'scrapbook', id: 'welcome'}
+        expect(response).to render_template('welcome')
+      end
+
+      it 'renders the matching template for a request with an "html" extension in the default scrapbook' do
+        get :show, params: {book: 'scrapbook', id: 'welcome.html'}
+        expect(response).to render_template('welcome')
+      end
+
+      it 'renders a directory listing for the specified folder in the default scrapbook' do
+        get :show, params: {book: 'scrapbook', id: 'components/folder_name/sub_stuff'}
+        expect(response).to render_template('scrapbook/pages/index')
+      end
+
+      it 'renders the specified file in the default scrapbook' do
+        get :show, params: {book: 'scrapbook', id: 'assets/fireworks.jpg'}
+        expect(response).to have_http_status(:ok)
+        expect(response).to render_template(nil)
+      end
+
+      it 'prefers to render the template over a directory or file' do
+        get :show, params: {book: 'scrapbook', id: 'components/folder_name'}
+        expect(response).to render_template('components/folder_name')
+      end
+
+      it "returns a 404 error when the path doesn't exist" do
+        get :show, params: {book: 'scrapbook', id: 'missing'}
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "returns a 404 error when the scrapbook doesn't exist" do
+        get :show, params: {book: 'missing', id: 'welcome'}
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
 end

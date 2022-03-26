@@ -23,6 +23,9 @@ Metrics/BlockLength:
     - describe
     - context
 
+Metrics/MethodLength:
+  Max: 20
+
 RSpec/ExampleLength:
   CountAsOne:
      - array

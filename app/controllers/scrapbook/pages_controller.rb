@@ -1,14 +1,31 @@
 # frozen_string_literal: true
 
 module Scrapbook
-  # TODO: Document this controller
-  # Placeholder
+  # @todo Document this controller
   class PagesController < ApplicationController
     def index
       return head(:not_found) if (scrapbook = find_scrapbook).nil?
-      return head(:not_found) if (pathname = find_folder_for(scrapbook, params[:path])).nil?
+      return head(:not_found) unless (pathname = calculate_pathname(scrapbook, params[:path])).directory?
 
       render locals: {scrapbook: scrapbook, pathname: pathname}
+    end
+
+    def show # rubocop:disable Metrics/AbcSize
+      return head(:not_found) if (scrapbook = find_scrapbook).nil?
+
+      pathname = calculate_pathname(scrapbook, params[:id])
+      template = Pathname.new(params[:id].delete_suffix('.html'))
+      append_view_path(scrapbook.pages_pathname)
+
+      if template_exists?(template)
+        render(template: template)
+      elsif pathname.directory?
+        render 'scrapbook/pages/index', locals: {scrapbook: scrapbook, pathname: pathname}
+      elsif pathname.exist?
+        render(file: pathname)
+      else
+        head :not_found
+      end
     end
 
     private
@@ -23,14 +40,12 @@ module Scrapbook
       scrapbook_path && Scrapbook.new(scrapbook_path)
     end
 
-    def find_folder_for(scrapbook, path)
-      pathname = if path.present?
+    def calculate_pathname(scrapbook, path)
+      if path.present?
         scrapbook.pages_pathname.join(path)
       else
         scrapbook.pages_pathname
       end
-
-      File.directory?(pathname) ? pathname : nil
     end
   end
 end
