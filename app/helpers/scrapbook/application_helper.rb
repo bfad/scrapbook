@@ -10,8 +10,9 @@ module Scrapbook
     end
 
     def short_link_to_file(pathname, scrapbook = nil)
-      noexts_pathname = pathname.dirname.join(pathname.basename.sub(/\..*\z/, ''))
-      link_to noexts_pathname.basename, short_path_to(noexts_pathname, scrapbook)
+      formatted_basename = pathname.basename.sub(/(?:.#{lookup_context.handlers.join('|.')})+\z/, '')
+      formatted_pathname = pathname.dirname.join(formatted_basename)
+      link_to formatted_basename, short_path_to(formatted_pathname, scrapbook)
     end
 
     private
