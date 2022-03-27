@@ -24,6 +24,18 @@ $ gem install scrapbook
 ## Contributing
 Contribution directions go here.
 
+### Install TailwindCSS CLI
+If you need to submit updates to the theme
+Follow [the instructions to install the CLI](https://tailwindcss.com/docs/installation).
+
+$> npm install -D @tailwindcss/forms
+$> npm install -D @tailwindcss/aspect-ratio
+$> npm install -D @tailwindcss/typography
+
+npx tailwindcss -i app/assets/stylesheets/scrapbook/application.tailwind.css -o app/assets/builds/scrapbook/tailwind.css --minify --watch
+
+Why not use the "tailwindcss-rails" gem? Not supported for engines.
+
 ## License
 
 Copyright 2022 Brad Lindsay

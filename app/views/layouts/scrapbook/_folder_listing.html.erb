@@ -1,0 +1,13 @@
+<header class="text-2xl">/<%= scrapbook.relative_page_path_for(pathname) %></header>
+<%
+folders, templates = pathname.children.each_with_object([[], []]) do |pname, acc|
+  next if pname.basename.to_s.start_with?('.')
+  if pname.directory?
+    acc[0] << pname
+  else
+    acc[1] << pname
+  end
+end
+%>
+<ul><% folders.each do |folder| %><li><%= short_link_to_folder folder, scrapbook %></li><% end %></ul>
+<ul><% templates.each do |template| %><li><%= short_link_to_file template, scrapbook %></li><% end %></ul>

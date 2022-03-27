@@ -18,7 +18,7 @@ module Scrapbook
       append_view_path(scrapbook.pages_pathname)
 
       if template_exists?(template)
-        render(template: template)
+        render(template: template, locals: {scrapbook: scrapbook, pathname: pathname.dirname})
       elsif pathname.directory?
         render 'scrapbook/pages/index', locals: {scrapbook: scrapbook, pathname: pathname}
       elsif pathname.exist?

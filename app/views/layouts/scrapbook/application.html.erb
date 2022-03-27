@@ -5,11 +5,11 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
-  <%= stylesheet_link_tag    "scrapbook/application", media: "all" %>
+  <%= stylesheet_link_tag "scrapbook/tailwind", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "scrapbook/application", media: "all" %>
 </head>
-<body>
-
-<%= yield %>
-
+<body class="flex">
+  <nav class="flex-none min-w-[20ch] px-4 py-2 border-r"><%= render 'layouts/scrapbook/folder_listing', scrapbook: local_assigns[:scrapbook], pathname: local_assigns[:pathname] %></nav>
+  <main class="py-2 px-4"><%= yield %></main>
 </body>
 </html>

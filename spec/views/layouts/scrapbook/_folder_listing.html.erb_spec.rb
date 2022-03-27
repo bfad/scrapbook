@@ -2,13 +2,13 @@
 
 require 'rails_helper'
 
-RSpec.describe 'scrapbook/pages/index' do
+RSpec.describe 'layouts/scrapbook/folder_listing' do
   let(:parsed) { Nokogiri::HTML5(rendered) }
 
   describe 'the heading' do
     it 'renders just a slash when viewing the root folder' do
       scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
-      render template: self.class.top_level_description,
+      render partial: self.class.top_level_description,
         locals: {scrapbook: scrapbook, pathname: scrapbook.pages_pathname}
 
       expect(parsed.at_css('header').text).to eql('/')
@@ -17,7 +17,7 @@ RSpec.describe 'scrapbook/pages/index' do
     it 'renders the folder name' do
       scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
       path = 'components/folder_name'
-      render template: self.class.top_level_description,
+      render partial: self.class.top_level_description,
         locals: {scrapbook: scrapbook, pathname: scrapbook.pages_pathname.join(path)}
 
       expect(parsed.at('header').text).to eql("/#{path}")
@@ -27,7 +27,7 @@ RSpec.describe 'scrapbook/pages/index' do
   it 'renders the contents of a folder' do # rubocop:disable RSpec/ExampleLength
     scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
     contents = scrapbook.pages_pathname.children
-    render template: self.class.top_level_description,
+    render partial: self.class.top_level_description,
       locals: {scrapbook: scrapbook, pathname: scrapbook.pages_pathname}
 
     expect(contents).not_to be_empty
@@ -40,7 +40,7 @@ RSpec.describe 'scrapbook/pages/index' do
   it "doesn't render hidden files (files starting with a period)" do
     scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
     pathname = scrapbook.pages_pathname.join('components/folder_name/sub_stuff')
-    render template: self.class.top_level_description,
+    render partial: self.class.top_level_description,
       locals: {scrapbook: scrapbook, pathname: pathname}
 
     expect(pathname.join('.keep')).to be_exist
