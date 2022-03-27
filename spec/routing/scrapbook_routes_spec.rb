@@ -14,6 +14,14 @@ RSpec.describe Scrapbook do
           id: 'area/subject/item'
         )
       end
+
+      it 'correctly routes viewing a long file' do
+        expect(get: '/area/subject/item.xml').to route_to(
+          controller: 'scrapbook/pages',
+          action: 'show',
+          id: 'area/subject/item.xml'
+        )
+      end
     end
 
     context 'with the pages prefix' do
@@ -26,6 +34,14 @@ RSpec.describe Scrapbook do
           controller: 'scrapbook/pages',
           action: 'show',
           id: 'area/subject/item'
+        )
+      end
+
+      it 'correctly routes viewing a long file' do
+        expect(get: '/pages/area/subject/item.xml').to route_to(
+          controller: 'scrapbook/pages',
+          action: 'show',
+          id: 'area/subject/item.xml'
         )
       end
 
@@ -88,6 +104,15 @@ RSpec.describe Scrapbook do
         )
       end
 
+      it 'correctly routes viewing a long file' do
+        expect(get: '/scrapbook/pages/area/subject/item.xml').to route_to(
+          controller: 'scrapbook/pages',
+          action: 'show',
+          book: 'scrapbook',
+          id: 'area/subject/item.xml'
+        )
+      end
+
       it 'correctly routes editing a long path' do
         expect(get: '/scrapbook/pages/area/subject/item/edit').to route_to(
           controller: 'scrapbook/pages',
@@ -121,6 +146,18 @@ RSpec.describe Scrapbook do
           book: 'scrapbook'
         )
       end
+    end
+  end
+
+  describe 'Raw routes to pages' do
+    it 'correctly routes to the show page path' do
+      expect(get: '/.raw/scrapbook/pages/area/subject/item.xml').to route_to(
+        controller: 'scrapbook/pages',
+        action: 'show',
+        book: 'scrapbook',
+        id: 'area/subject/item.xml',
+        raw: true
+      )
     end
   end
 end

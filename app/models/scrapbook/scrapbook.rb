@@ -24,6 +24,10 @@ module Scrapbook
       self.root = Pathname.new(root)
     end
 
+    def name
+      root.basename
+    end
+
     def pages_pathname
       root.join('pages')
     end

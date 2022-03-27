@@ -33,6 +33,12 @@ RSpec.describe Scrapbook::Scrapbook do
     end
   end
 
+  describe '#name' do
+    subject { scrapbook.name }
+
+    it { is_expected.to eql(scrapbook.root.basename) }
+  end
+
   describe '#pages_pathname' do
     subject { scrapbook.pages_pathname }
 
