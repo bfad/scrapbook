@@ -3,6 +3,8 @@
 module Scrapbook
   # Modeling the scrap book
   class Scrapbook
+    NotFoundError = Class.new(StandardError)
+
     attr_accessor :root
 
     def self.find_scrapbook_for(pathname)
@@ -13,6 +15,7 @@ module Scrapbook
 
         [index, relative_path.each_filename.count]
       end
+      raise NotFoundError if candidates.empty?
 
       new(scrapbooks[candidates.min_by { _1[1] }.first])
     end

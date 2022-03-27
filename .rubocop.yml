@@ -18,6 +18,9 @@ Layout/FirstHashElementIndentation:
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 
+Metrics/AbcSize:
+  Max: 30
+
 Metrics/BlockLength:
   IgnoredMethods:
     - describe

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'active_record'
 
 RSpec.describe Scrapbook::Scrapbook do
   subject(:scrapbook) { described_class.new(PathnameHelpers.new.scrapbook_root) }
@@ -28,7 +29,7 @@ RSpec.describe Scrapbook::Scrapbook do
     context "when pathname isn't in a scrapbook" do
       let(:pathname) { Rails.root.join('app/views/stuff.html.slim') }
 
-      it { will_be_expected.to raise_error }
+      it { will_be_expected.to raise_error(described_class::NotFoundError) }
     end
   end
 
