@@ -5,6 +5,32 @@ require 'rails_helper'
 RSpec.describe Scrapbook do
   routes { Scrapbook::Engine.routes }
 
+  describe 'Routes to root / Pages#index' do
+    context 'with the short route to route' do
+      subject { {get: '/'} }
+
+      it { is_expected.to route_to(controller: 'scrapbook/pages', action: 'index') }
+    end
+
+    context 'with the pages prefix' do
+      subject { {get: '/pages'} }
+
+      it { is_expected.to route_to(controller: 'scrapbook/pages', action: 'index') }
+    end
+
+    context 'with the book prefix' do
+      subject { {get: '/scrapbook'} }
+
+      it { is_expected.to route_to(controller: 'scrapbook/pages', action: 'index', book: 'scrapbook') }
+    end
+
+    context 'with both the book and pages prefix' do
+      subject { {get: '/scrapbook/pages'} }
+
+      it { is_expected.to route_to(controller: 'scrapbook/pages', action: 'index', book: 'scrapbook') }
+    end
+  end
+
   describe 'Direct routes to pages' do
     context 'without the pages prefix' do
       it 'correctly routes viewing a long path' do
