@@ -24,6 +24,62 @@ RSpec.describe 'layouts/scrapbook/folder_listing' do
     end
   end
 
+  describe 'back breadcrumb' do
+    it 'renders nothing when viewing the root folder' do
+      scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
+      pathname  = scrapbook.pages_pathname
+      render partial: self.class.top_level_description,
+        locals: {scrapbook: scrapbook, pathname: pathname}
+
+      expect(parsed.at('a.back-to-parent')).to be nil
+    end
+
+    it 'renders a slash when viewing a sub-folder of the root' do
+      scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
+      pathname  = scrapbook.pages_pathname.join('components')
+      render partial: self.class.top_level_description,
+        locals: {scrapbook: scrapbook, pathname: pathname}
+
+      expect(parsed.at('a.back-to-parent').text).to eql('‹ /')
+    end
+
+    it 'renders the name of the deeply nested folder' do
+      scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
+      pathname  = scrapbook.pages_pathname.join('components/folder_name')
+      render partial: self.class.top_level_description,
+        locals: {scrapbook: scrapbook, pathname: pathname}
+
+      expect(parsed.at('a.back-to-parent').text).to eql("‹ #{pathname.dirname.basename}")
+    end
+
+    it 'renders nothing when the parent of the currently selected file is the root folder' do
+      scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
+      pathname  = scrapbook.pages_pathname.join('welcome')
+      render partial: self.class.top_level_description,
+        locals: {scrapbook: scrapbook, pathname: pathname}
+
+      expect(parsed.at('a.back-to-parent')).to be nil
+    end
+
+    it 'renders the name of the parent of the currently selected file' do
+      scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
+      pathname  = scrapbook.pages_pathname.join('components/austen')
+      render partial: self.class.top_level_description,
+        locals: {scrapbook: scrapbook, pathname: pathname}
+
+      expect(parsed.at('a.back-to-parent').text).to eql('‹ /')
+    end
+
+    it 'renders the name of the deeply nested parent of the currently selected file' do
+      scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
+      pathname  = scrapbook.pages_pathname.join('components/folder_name/with_panache')
+      render partial: self.class.top_level_description,
+        locals: {scrapbook: scrapbook, pathname: pathname}
+
+      expect(parsed.at('a.back-to-parent').text).to eql("‹ #{pathname.dirname.dirname.basename}")
+    end
+  end
+
   it 'renders the contents of a folder' do # rubocop:disable RSpec/ExampleLength
     scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
     contents = scrapbook.pages_pathname.children

@@ -29,6 +29,9 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Max: 20
 
+RSpec/BeNil:
+  Enabled: false
+
 RSpec/ExampleLength:
   CountAsOne:
      - array
