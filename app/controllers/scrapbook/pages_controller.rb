@@ -10,7 +10,7 @@ module Scrapbook
       render locals: {scrapbook: scrapbook, pathname: pathname}
     end
 
-    def show # rubocop:disable Metrics/AbcSize
+    def show
       return head(:not_found) if (scrapbook = find_scrapbook).nil?
 
       pathname = calculate_pathname(scrapbook, params[:id])
@@ -18,13 +18,13 @@ module Scrapbook
       append_view_path(scrapbook.pages_pathname)
 
       if template_exists?(template)
-        render template: template, locals: {scrapbook: scrapbook, pathname: pathname.dirname}, layout: !params[:raw]
+        render template: template, locals: {scrapbook: scrapbook, pathname: pathname}, layout: !params[:raw]
       elsif pathname.directory?
         render 'scrapbook/pages/index', locals: {scrapbook: scrapbook, pathname: pathname}, layout: !params[:raw]
       elsif pathname.exist? && params[:raw]
         render file: pathname
       elsif pathname.exist?
-        render locals: {scrapbook: scrapbook, pathname: pathname.dirname, file: pathname}, formats: [:html]
+        render locals: {scrapbook: scrapbook, pathname: pathname}, formats: [:html]
       else
         head :not_found
       end

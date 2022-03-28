@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'layouts/scrapbook/folder_listing' do
-  let(:parsed) { Nokogiri::HTML5(rendered) }
+  let(:parsed) { Nokogiri::HTML5.fragment(rendered) }
 
   describe 'the heading' do
     it 'renders just a slash when viewing the root folder' do
@@ -16,11 +16,11 @@ RSpec.describe 'layouts/scrapbook/folder_listing' do
 
     it 'renders the folder name' do
       scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
-      path = 'components/folder_name'
+      pathname  = scrapbook.pages_pathname.join('components/folder_name')
       render partial: self.class.top_level_description,
-        locals: {scrapbook: scrapbook, pathname: scrapbook.pages_pathname.join(path)}
+        locals: {scrapbook: scrapbook, pathname: pathname}
 
-      expect(parsed.at('header').text).to eql("/#{path}")
+      expect(parsed.at('header').text).to eql("/#{pathname.basename}/")
     end
   end
 
@@ -45,5 +45,14 @@ RSpec.describe 'layouts/scrapbook/folder_listing' do
 
     expect(pathname.join('.keep')).to be_exist
     expect(parsed.at('li > a')).not_to be_present
+  end
+
+  it "doesn't render template files whose names match their parent folder" do
+    scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
+    pathname = scrapbook.pages_pathname.join('components/folder_name.html.erb')
+    render partial: self.class.top_level_description,
+      locals: {scrapbook: scrapbook, pathname: pathname}
+
+    expect(parsed.css(%[li > a:contains("folder_name")]).size).to be 1
   end
 end
