@@ -6,13 +6,24 @@ RSpec.describe Scrapbook::PagesController, :aggregate_failures do
   routes { Scrapbook::Engine.routes }
 
   describe '#index' do
+    let(:scrapbook) { Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root) }
+
     before { allow(controller).to receive(:render).and_call_original }
 
     context 'when no book is specified' do
       it 'gets the listing of the pages directory for the default scrapbook' do
         get :index
-        scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
-        pathname  = scrapbook.pages_pathname
+        pathname = scrapbook.pages_pathname
+
+        expect(pathname).not_to be_empty
+        expect(response).to have_http_status(:ok).and render_template('pages')
+        expect(controller).to have_received(:render)
+          .with a_hash_including(locals: {scrapbook: scrapbook, pathname: pathname})
+      end
+
+      it 'gets the listing of the specified sub directory for the default scrapbook' do
+        get :index, params: {path: 'components'}
+        pathname = scrapbook.pages_pathname.join('components')
 
         expect(pathname).not_to be_empty
         expect(response).to have_http_status(:ok).and render_template(:index)
@@ -20,15 +31,15 @@ RSpec.describe Scrapbook::PagesController, :aggregate_failures do
           .with a_hash_including(locals: {scrapbook: scrapbook, pathname: pathname})
       end
 
-      it 'gets the listing of the specified sub directory for the default scrapbook' do
-        get :index, params: {path: 'components'}
-        scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
-        pathname  = scrapbook.pages_pathname.join('components')
+      it 'renders the root template for the root directory if it exists' do
+        FileUtils.touch(scrapbook.pages_pathname.sub_ext('.html.erb'))
 
-        expect(pathname).not_to be_empty
-        expect(response).to have_http_status(:ok).and render_template(:index)
+        get :index
+        expect(response).to have_http_status(:ok).and render_template('pages')
         expect(controller).to have_received(:render)
-          .with a_hash_including(locals: {scrapbook: scrapbook, pathname: pathname})
+          .with a_hash_including(locals: {scrapbook: scrapbook, pathname: scrapbook.pages_pathname})
+      ensure
+        FileUtils.remove_file(scrapbook.pages_pathname.sub_ext('.html.erb'))
       end
 
       it "returns a 404 error when the path doesn't exist" do
@@ -40,11 +51,10 @@ RSpec.describe Scrapbook::PagesController, :aggregate_failures do
     context 'with a specified book' do
       it 'gets the listing of the pages directory for the specified book' do
         get :index, params: {book: 'scrapbook'}
-        scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
-        pathname  = scrapbook.pages_pathname
+        pathname = scrapbook.pages_pathname
 
         expect(pathname).not_to be_empty
-        expect(response).to have_http_status(:ok).and render_template(:index)
+        expect(response).to have_http_status(:ok).and render_template('pages')
         expect(controller).to have_received(:render)
           .with a_hash_including(locals: {scrapbook: scrapbook, pathname: pathname})
       end
@@ -56,8 +66,7 @@ RSpec.describe Scrapbook::PagesController, :aggregate_failures do
 
       it 'gets the listing of the specified sub directory for the specified book' do
         get :index, params: {book: 'scrapbook', path: 'components'}
-        scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
-        pathname  = scrapbook.pages_pathname.join('components')
+        pathname = scrapbook.pages_pathname.join('components')
 
         expect(pathname).not_to be_empty
         expect(response).to have_http_status(:ok).and render_template(:index)

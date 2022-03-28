@@ -3,11 +3,18 @@
 module Scrapbook
   # @todo Document this controller
   class PagesController < ApplicationController
+    self.view_paths = Engine.config.paths['app/views'].to_a
+
     def index
       return head(:not_found) if (scrapbook = find_scrapbook).nil?
       return head(:not_found) unless (pathname = calculate_pathname(scrapbook, params[:path])).directory?
 
-      render locals: {scrapbook: scrapbook, pathname: pathname}
+      if pathname == scrapbook.pages_pathname
+        prepend_view_path(scrapbook.root)
+        render template: 'pages', locals: {scrapbook: scrapbook, pathname: pathname}
+      else
+        render locals: {scrapbook: scrapbook, pathname: pathname}
+      end
     end
 
     def show
