@@ -6,12 +6,12 @@ RSpec.describe 'layouts/scrapbook/folder_listing' do
   let(:parsed) { Nokogiri::HTML5.fragment(rendered) }
 
   describe 'the heading' do
-    it 'renders just a slash when viewing the root folder' do
+    it 'renders the name of the scrapbook when viewing the root folder' do
       scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
       render partial: self.class.top_level_description,
         locals: {scrapbook: scrapbook, pathname: scrapbook.pages_pathname}
 
-      expect(parsed.at_css('header').text).to eql('/')
+      expect(parsed.at_css('header').text).to eql("/#{scrapbook.name}")
     end
 
     it 'renders the folder name' do
@@ -34,13 +34,13 @@ RSpec.describe 'layouts/scrapbook/folder_listing' do
       expect(parsed.at('a.back-to-parent')).to be nil
     end
 
-    it 'renders a slash when viewing a sub-folder of the root' do
+    it 'renders the name of the scrapbook when viewing a sub-folder of the root' do
       scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
       pathname  = scrapbook.pages_pathname.join('components')
       render partial: self.class.top_level_description,
         locals: {scrapbook: scrapbook, pathname: pathname}
 
-      expect(parsed.at('a.back-to-parent').text).to eql('‹ /')
+      expect(parsed.at('a.back-to-parent').text).to eql("‹ #{scrapbook.name}")
     end
 
     it 'renders the name of the deeply nested folder' do
@@ -61,13 +61,13 @@ RSpec.describe 'layouts/scrapbook/folder_listing' do
       expect(parsed.at('a.back-to-parent')).to be nil
     end
 
-    it 'renders the name of the parent of the currently selected file' do
+    it 'renders the name of the scrapbook when the parent of the currently selected file is at the root level' do
       scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
       pathname  = scrapbook.pages_pathname.join('components/austen')
       render partial: self.class.top_level_description,
         locals: {scrapbook: scrapbook, pathname: pathname}
 
-      expect(parsed.at('a.back-to-parent').text).to eql('‹ /')
+      expect(parsed.at('a.back-to-parent').text).to eql("‹ #{scrapbook.name}")
     end
 
     it 'renders the name of the deeply nested parent of the currently selected file' do
