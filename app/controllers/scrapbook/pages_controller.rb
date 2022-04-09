@@ -21,10 +21,10 @@ module Scrapbook
       return head(:not_found) if (scrapbook = find_scrapbook).nil?
 
       pathname = calculate_pathname(scrapbook, params[:id])
-      template = Pathname.new(params[:id].delete_suffix('.html'))
-      append_view_path(scrapbook.pages_pathname)
+      template = params[:id].delete_suffix('.html')
 
-      if template_exists?(template)
+      if scrapbook_template_exists?(scrapbook, template)
+        prepend_view_path(scrapbook.pages_pathname)
         render template: template, locals: {scrapbook: scrapbook, pathname: pathname}, layout: !params[:raw]
       elsif pathname.directory?
         render 'scrapbook/pages/index', locals: {scrapbook: scrapbook, pathname: pathname}, layout: !params[:raw]
@@ -56,5 +56,15 @@ module Scrapbook
         scrapbook.pages_pathname
       end
     end
+
+    def scrapbook_template_exists?(scrapbook, template)
+      EmptyController.new.tap { |c| c.prepend_view_path(scrapbook.pages_pathname) }.template_exists?(template)
+    end
   end
+
+  # This controller is used to specify view paths to check if a template exists.
+  class EmptyController < ApplicationController
+    self.view_paths = []
+  end
+  private_constant :EmptyController
 end

@@ -71,6 +71,14 @@ RSpec.describe Scrapbook do
         )
       end
 
+      it 'correctly routes viewing a page named pages' do
+        expect(get: '/pages/pages').to route_to(
+          controller: 'scrapbook/pages',
+          action: 'show',
+          id: 'pages'
+        )
+      end
+
       it 'correctly routes editing a long path' do
         expect(get: '/pages/area/subject/item/edit').to route_to(
           controller: 'scrapbook/pages',
@@ -136,6 +144,15 @@ RSpec.describe Scrapbook do
           action: 'show',
           book: 'scrapbook',
           id: 'area/subject/item.xml'
+        )
+      end
+
+      it 'correctly routes viewing a page named pages' do
+        expect(get: '/scrapbook/pages/pages').to route_to(
+          controller: 'scrapbook/pages',
+          action: 'show',
+          book: 'scrapbook',
+          id: 'pages'
         )
       end
 

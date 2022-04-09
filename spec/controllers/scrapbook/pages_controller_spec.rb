@@ -204,5 +204,61 @@ RSpec.describe Scrapbook::PagesController, :aggregate_failures do
         expect(response).to have_http_status(:not_found)
       end
     end
+
+    context 'when viewing the ID "pages"' do
+      render_views # Can't be called or configured in an example
+
+      let(:scrapbook) { Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root) }
+
+      it 'renders it with a short or pages path' do
+        scrapbook.pages_pathname.join('pages.html.erb').write('edge-case for /pages')
+        get :show, params: {id: 'pages'}
+
+        expect(response).to render_template('pages')
+        expect(response).to render_template('layouts/scrapbook/application')
+        expect(response.body).to match(%r{edge-case for /pages})
+      ensure
+        FileUtils.remove_file(scrapbook.pages_pathname.join('pages.html.erb'))
+      end
+
+      it 'renders it with a book path' do
+        scrapbook.pages_pathname.join('pages.html.erb').write('edge-case for /pages')
+        get :show, params: {book: 'scrapbook', id: 'pages'}
+
+        expect(response).to render_template('pages')
+        expect(response).to render_template('layouts/scrapbook/application')
+        expect(response.body).to match(%r{edge-case for /pages})
+      ensure
+        FileUtils.remove_file(scrapbook.pages_pathname.join('pages.html.erb'))
+      end
+
+      it 'renders it with a raw path' do
+        scrapbook.pages_pathname.join('pages.html.erb').write('edge-case for /pages')
+        get :show, params: {raw: true, book: 'scrapbook', id: 'pages'}
+
+        expect(response).to render_template('pages')
+        expect(response).not_to render_template('layouts/scrapbook/application')
+        expect(response.body).to match(%r{edge-case for /pages})
+      ensure
+        FileUtils.remove_file(scrapbook.pages_pathname.join('pages.html.erb'))
+      end
+    end
+
+    context %(when viewing the ID "pages" which doesnt exist) do
+      it 'renders not found for short or pages path' do
+        get :show, params: {id: 'pages'}
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it 'renders not found for a book path' do
+        get :show, params: {book: 'scrapbook', id: 'pages'}
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it 'renders not found for a raw path' do
+        get :show, params: {raw: true, book: 'scrapbook', id: 'pages'}
+        expect(response).to have_http_status(:not_found)
+      end
+    end
   end
 end
