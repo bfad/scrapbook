@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Scrapbook</title>
+  <title><%= local_assigns[:scrapbook].name || 'Scrapbook' %>: <%= content_for?(:title) ? yield(:title) : local_assigns[:pathname].basename %></title>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
   <%= stylesheet_link_tag "scrapbook/tailwind", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "scrapbook/application", media: "all" %>
+  <%= yield(:head) %>
 </head>
 <body class="flex">
   <nav class="flex-none min-w-[20ch] max-w-[50%] h-screen overflow-scroll px-4 py-2 border-r"><%= render 'layouts/scrapbook/folder_listing', scrapbook: local_assigns[:scrapbook], pathname: local_assigns[:pathname] %></nav>
