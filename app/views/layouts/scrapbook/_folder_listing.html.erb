@@ -9,7 +9,7 @@ folders, files = folder_to_list.children.each_with_object([[], []]) do |pname, a
   end
 end
 %>
-<% if folder_to_list != scrapbook.pages_pathname %><%= link_to "‹ #{folder_to_list.dirname == scrapbook.pages_pathname ? scrapbook.name : folder_to_list.dirname.basename}", short_path_to(folder_to_list.dirname, scrapbook), class: 'back-to-parent block w-100' %><% end %>
-<header class="text-2xl">/<%= folder_to_list == scrapbook.pages_pathname ? scrapbook.name : "#{folder_to_list.basename}/" %></header>
-<ul><% folders.each do |folder| %><li><%= link_to "#{folder.basename}/", short_path_to(folder, scrapbook), class: 'block w-100' %></li><% end %></ul>
-<ul><% files.each do |file| %><% next if folders.include?(file) %><li><%= link_to file.basename, short_path_to(file, scrapbook), class: 'block w-100' %></li><% end %></ul>
+<% if folder_to_list != scrapbook.pages_pathname %><%= link_to "‹ #{folder_to_list.dirname == scrapbook.pages_pathname ? scrapbook.name : folder_to_list.dirname.basename}", short_path_to(folder_to_list.dirname, scrapbook), class: 'back-to-parent sb-block sb-w-100' %><% end %>
+<header class="sb-text-2xl">/<%= folder_to_list == scrapbook.pages_pathname ? scrapbook.name : "#{folder_to_list.basename}/" %></header>
+<ul><% folders.each do |folder| %><li><%= link_to "#{folder.basename}/", short_path_to(folder, scrapbook), class: 'sb-block sb-w-100' %></li><% end %></ul>
+<ul><% files.each do |file| %><% next if folders.include?(file) %><li><%= link_to file.basename, short_path_to(file, scrapbook), class: 'sb-block sb-w-100' %></li><% end %></ul>
