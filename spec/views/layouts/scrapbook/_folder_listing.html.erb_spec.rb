@@ -117,7 +117,7 @@ RSpec.describe 'layouts/scrapbook/folder_listing' do
     expect(parsed.at('li > a')).not_to be_present
   end
 
-  it "doesn't render template files whose names match their parent folder" do
+  it "doesn't render template files whose names match a sibling folder" do
     scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
     pathname = scrapbook.pages_pathname.join('components/folder_name.html.erb')
     render partial: self.class.top_level_description,
