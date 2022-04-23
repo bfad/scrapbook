@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
+const plugin = require('tailwindcss/plugin')
 
 module.exports = {
   corePlugins: {
@@ -18,5 +19,9 @@ module.exports = {
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/typography'),
+    plugin(function({ addVariant }) {
+      addVariant('children', '& > *')
+      addVariant('children-hover', '& > *:hover')
+    }),
   ]
 }

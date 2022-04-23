@@ -10,7 +10,7 @@
   <%= stylesheet_link_tag "scrapbook/tailwind", "data-turbo-track": "reload" %>
 </head>
 <body class="sb-flex">
-  <nav class="sb-flex-none sb-min-w-[20ch] sb-max-w-[50%] sb-h-screen sb-overflow-scroll sb-px-4 sb-py-2 sb-border-solid sb-border-slate-400 sb-border-0 sb-border-r"><%= render 'layouts/scrapbook/folder_listing', scrapbook: local_assigns[:scrapbook], pathname: local_assigns[:pathname] %></nav>
+  <nav class="sb-flex-none sb-min-w-[20ch] sb-max-w-[50%] sb-h-screen sb-overflow-scroll children:sb-px-4 sb-py-2 sb-border-solid sb-border-sky-700 sb-border-0 sb-border-r"><%= render 'layouts/scrapbook/folder_listing', scrapbook: local_assigns[:scrapbook], pathname: local_assigns[:pathname] %></nav>
   <main class="sb-py-2 sb-px-4 sb-h-screen sb-w-screen sb-overflow-scroll"><%= yield %></main>
 </body>
 </html>

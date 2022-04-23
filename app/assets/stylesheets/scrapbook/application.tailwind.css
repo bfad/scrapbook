@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  /* Not sure base is correct here */
+  body > nav li {
+    cursor: default;
+  }
+
+  body > nav a,
+  body > nav a:hover,
+  body > nav a:active,
+  body > nav a:visited
+  {
+    color: theme('colors.slate.900');
+    cursor:  default;
+    text-decoration: none;
+    transition: background-color 80ms linear;
+    font-weight: normal;
+    font-size: unset;
+    line-height:inherit;
+  }
+
+  body > nav a:hover {
+    background-color: theme('colors.sky.50');
+  }
+
+  body > nav a:active {
+    background-color: theme('colors.sky.200');
+  }
+}
