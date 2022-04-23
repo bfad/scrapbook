@@ -22,6 +22,20 @@ RSpec.describe 'layouts/scrapbook/folder_listing' do
 
       expect(parsed.at('header').text).to eql("/#{pathname.basename}/")
     end
+
+    context 'when sub-page is selected' do
+      it 'renders as a link' do
+        scrapbook = Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root)
+        dir_name  = scrapbook.pages_pathname.join('components/folder_name')
+        render partial: self.class.top_level_description,
+          locals: {scrapbook: scrapbook, pathname: dir_name.join('with_panache')}
+
+        header_link = parsed.at('header > a')
+        expect(header_link.text).to eql("/#{dir_name.basename}/")
+        expect(header_link.get_attribute(:href))
+          .to eql(controller.short_page_path(dir_name.relative_path_from(scrapbook.pages_pathname)))
+      end
+    end
   end
 
   describe 'back breadcrumb' do
