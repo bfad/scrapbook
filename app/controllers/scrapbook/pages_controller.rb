@@ -61,10 +61,4 @@ module Scrapbook
       EmptyController.new.tap { |c| c.prepend_view_path(scrapbook.pages_pathname) }.template_exists?(template)
     end
   end
-
-  # This controller is used to specify view paths to check if a template exists.
-  class EmptyController < ApplicationController
-    self.view_paths = []
-  end
-  private_constant :EmptyController
 end
