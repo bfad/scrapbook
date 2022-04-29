@@ -1,17 +1,9 @@
 <%
-folder_to_list = pathname.directory? ? pathname : pathname.dirname
-folders, files = folder_to_list.children.each_with_object([[], []]) do |pname, acc|
-  next if pname.basename.to_s.start_with?('.')
-  if pname.directory?
-    acc[0] << pname
-  else
-    acc[1] << pathname_without_handler_exts(pname)
-  end
-end
-header_name = "/#{folder_to_list == scrapbook.pages_pathname ? scrapbook.name : "#{folder_to_list.basename}/"}"
-current_page = pathname_without_handler_exts(pathname)
+  helper = Scrapbook::HelperForView.new(self)
+  listing = Scrapbook::FolderListingViewModel.new(self, scrapbook, pathname)
+  pathname_without_handler_exts = helper.remove_handler_exts_from(pathname)
 %>
-<% if folder_to_list != scrapbook.pages_pathname %><%= link_to "‹ #{folder_to_list.dirname == scrapbook.pages_pathname ? scrapbook.name : folder_to_list.dirname.basename}", short_path_to(folder_to_list.dirname, scrapbook), class: 'back-to-parent sb-block sb-w-100' %><% end %>
-<header aria-label="Which folder's contents" class="sb-text-2xl <%= folder_to_list == pathname ? 'sb-bg-sky-100' : '!sb-px-0 children:sb-px-4' %>"><% if folder_to_list == pathname %><span aria-current="page"><%= header_name %><% else %><%= link_to(header_name, short_path_to(folder_to_list), class: 'sb-block sb-w-100') %><% end %></header>
-<ul class="!sb-px-0" aria-label="Sub-folders"><% folders.each do |folder| %><li class="children:sb-px-4"><%= link_to "#{folder.basename}/", short_path_to(folder, scrapbook), class: 'sb-block sb-w-100' %></li><% end %></ul>
-<ul class="!sb-px-0" aria-label="Sub-files"><% files.each do |file| %><% next if folders.include?(file) %><li class="children:sb-px-4"><% if file == current_page %><span class="sb-block sb-w-100 sb-bg-sky-100" aria-current="page"><%= file.basename %></span><% else %><%= link_to file.basename, short_path_to(file, scrapbook), class: 'sb-block sb-w-100' %><% end %></li><% end %></ul>
+<% unless listing.root? %><%= link_to "‹ #{listing.parent_display_name}", helper.short_path_to(listing.pathname.parent), class: 'back-to-parent sb-block sb-w-100' %><% end %>
+<header aria-label="Which folder's contents" class="sb-text-2xl <%= listing.pathname == pathname ? 'sb-bg-sky-100' : '!sb-px-0 children:sb-px-4' %>"><% if listing.pathname == pathname %><span aria-current="page"><%= listing.header_name %></span><% else %><%= link_to(listing.header_name, helper.short_path_to(listing.pathname), class: 'sb-block sb-w-100') %><% end %></header>
+<ul class="!sb-px-0" aria-label="Sub-folders"><% listing.folders.each do |folder| %><li class="children:sb-px-4"><%= link_to "#{folder.basename}/", helper.short_path_to(folder, scrapbook), class: 'sb-block sb-w-100' %></li><% end %></ul>
+<ul class="!sb-px-0" aria-label="Sub-files"><% listing.files.each do |file| %><% next if listing.folders.include?(file) %><li class="children:sb-px-4"><% if file == pathname_without_handler_exts %><span class="sb-block sb-w-100 sb-bg-sky-100" aria-current="page"><%= file.basename %></span><% else %><%= link_to file.basename, helper.short_path_to(file, scrapbook), class: 'sb-block sb-w-100' %><% end %></li><% end %></ul>

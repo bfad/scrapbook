@@ -15,6 +15,9 @@ Layout/EndAlignment:
 Layout/FirstHashElementIndentation:
   EnforcedStyle: consistent
 
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 

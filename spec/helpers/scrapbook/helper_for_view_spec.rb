@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-RSpec.describe Scrapbook::ApplicationHelper do
+RSpec.describe Scrapbook::HelperForView do
   describe '#short_path_to' do
-    subject(:path) { helper.short_path_to(pathname, scrapbook) }
+    subject(:path) { described_class.new(helper).short_path_to(pathname, scrapbook) }
 
     let(:pathname) { PathnameHelpers.new.pages_pathname.join(relative_folder_path) }
     let(:scrapbook) { nil }
@@ -54,15 +54,16 @@ RSpec.describe Scrapbook::ApplicationHelper do
     end
   end
 
-  describe '#pathname_without_handler_exts' do
-    subject(:mod_pname) { helper.pathname_without_handler_exts(pathname) }
+  describe '#remove_handler_exts_from' do
+    subject(:no_exts) { described_class.new(helper).remove_handler_exts_from(pathname) }
 
     let(:pathname) { PathnameHelpers.new.pages_pathname.join(relative_file_path) }
-    let(:relative_file_path) { 'components/folder_name/with_panache.html.erb' }
 
     context 'when given a pathname to an ERB template' do
+      let(:relative_file_path) { 'components/folder_name/with_panache.html.erb' }
+
       it 'returns a pathname with the extensions removed' do
-        expect(mod_pname.to_s).to eql(pathname.to_s.sub(/\..*\z/, ''))
+        expect(no_exts.to_s).to eql(pathname.to_s.sub(/\..*\z/, ''))
       end
     end
 
@@ -70,7 +71,7 @@ RSpec.describe Scrapbook::ApplicationHelper do
       let(:relative_file_path) { 'components/austen.html.slim' }
 
       it 'returns a pathname to the specified template with the extensions removed' do
-        expect(mod_pname.to_s).to eql(pathname.to_s.sub(/\..*\z/, ''))
+        expect(no_exts.to_s).to eql(pathname.to_s.sub(/\..*\z/, ''))
       end
     end
 
@@ -78,7 +79,7 @@ RSpec.describe Scrapbook::ApplicationHelper do
       let(:relative_file_path) { 'assets/fireworks.jpg' }
 
       it 'returns a pathname to the specified file' do
-        expect(mod_pname).to eql(pathname)
+        expect(no_exts).to eql(pathname)
       end
     end
   end
