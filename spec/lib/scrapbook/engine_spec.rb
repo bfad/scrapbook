@@ -18,4 +18,22 @@ RSpec.describe Scrapbook::Engine do
         .to eql([Rails.root.join('custom/scrapbook/path')])
     end
   end
+
+  describe 'configuring asset precompilation' do
+    it 'defaults to not precompiling assets' do
+      skip 'PRECOMPILE_ASSETS is set' if ENV['PRECOMPILE_ASSETS'].present?
+
+      expect(described_class.config.scrapbook.precompile_assets).to be false
+      expect(described_class.config.assets.precompile)
+        .to exclude('scrapbook/tailwind_preflight_reset.css', 'scrapbook/tailwind.css')
+    end
+
+    it 'allows the application to turn on asset precompilation' do
+      skip 'PRECOMPILE_ASSETS not set' if ENV['PRECOMPILE_ASSETS'].blank?
+
+      expect(described_class.config.scrapbook.precompile_assets).to be true
+      expect(described_class.config.assets.precompile)
+        .to include('scrapbook/tailwind_preflight_reset.css', 'scrapbook/tailwind.css')
+    end
+  end
 end
