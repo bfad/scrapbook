@@ -36,11 +36,6 @@ npx tailwindcss -i app/assets/stylesheets/scrapbook/application.tailwind.css -o 
 
 Why not use the "tailwindcss-rails" gem? Not supported for engines.
 
-### Notes
-Don't include Tailwind's preflight CSS with their reset so that we can separate the reset from our class styles. (This allows us to do the reset first, user styles second, and our styles last.)
-To generate just the reset, run:
-npx tailwindcss -c tailwind-preflight-reset.config.js -i app/assets/stylesheets/scrapbook/application.tailwind_preflight_reset.css -o app/assets/builds/scrapbook/tailwind_preflight_reset.css --minify
-
 ## License
 
 Copyright 2022 Brad Lindsay
