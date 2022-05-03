@@ -196,7 +196,7 @@ RSpec.describe Scrapbook do
     it 'correctly routes to the show page path' do
       expect(get: '/.raw/scrapbook/pages/area/subject/item.xml').to route_to(
         controller: 'scrapbook/pages',
-        action: 'show',
+        action: 'raw',
         book: 'scrapbook',
         id: 'area/subject/item.xml',
         raw: true

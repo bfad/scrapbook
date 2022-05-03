@@ -7,7 +7,6 @@
 
   <%= stylesheet_link_tag "scrapbook/tailwind", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "scrapbook/application", media: "all" %>
-  <%= yield(:head) %>
 </head>
 <body class="flex">
   <nav class="flex-none min-w-[20ch] max-w-[50%] h-screen overflow-scroll children:px-4 py-2 border-solid border-sky-700 border-0 border-r"><%= render 'layouts/scrapbook/folder_listing', scrapbook: local_assigns[:scrapbook], pathname: local_assigns[:pathname] %></nav>

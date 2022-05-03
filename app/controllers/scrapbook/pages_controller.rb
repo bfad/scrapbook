@@ -23,15 +23,26 @@ module Scrapbook
       pathname = calculate_pathname(scrapbook, params[:id])
       template = params[:id].delete_suffix('.html')
 
+      if !scrapbook_template_exists?(scrapbook, template) && pathname.directory?
+        render 'scrapbook/pages/index', locals: {scrapbook: scrapbook, pathname: pathname}
+      else
+        render locals: {scrapbook: scrapbook, pathname: pathname}, formats: [:html]
+      end
+    end
+
+    def raw
+      return head(:not_found) if (scrapbook = find_scrapbook).nil?
+
+      pathname = calculate_pathname(scrapbook, params[:id])
+      template = params[:id].delete_suffix('.html')
+
       if scrapbook_template_exists?(scrapbook, template)
         prepend_view_path(scrapbook.pages_pathname)
-        render template: template, locals: {scrapbook: scrapbook, pathname: pathname}, layout: !params[:raw]
-      elsif pathname.directory?
-        render 'scrapbook/pages/index', locals: {scrapbook: scrapbook, pathname: pathname}, layout: !params[:raw]
-      elsif pathname.exist? && params[:raw]
-        render file: pathname
+        render template: template,
+          locals: {scrapbook: scrapbook, pathname: pathname},
+          layout: 'layouts/scrapbook/host_application'
       elsif pathname.exist?
-        render locals: {scrapbook: scrapbook, pathname: pathname}, formats: [:html]
+        render file: pathname
       else
         head :not_found
       end
