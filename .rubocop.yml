@@ -53,3 +53,7 @@ Style/BlockDelimiters:
 
 Style/IfUnlessModifier:
   Enabled: false
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%r': '``'

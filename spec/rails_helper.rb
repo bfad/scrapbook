@@ -55,7 +55,13 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
+  # Add path for generator type (not part of rspec-rails for some reason)
+  config.define_derived_metadata(file_path: Regexp.new('/spec/generators/')) do |metadata|
+    metadata[:type] = :generator
+  end
+
   config.include CustomHelpers
+  config.include GeneratorHelpers, type: :generator
 
   config.before :each, type: :view do
     controller.class.include Scrapbook::Engine.routes.url_helpers

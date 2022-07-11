@@ -238,7 +238,7 @@ RSpec.describe Scrapbook::PagesController, :aggregate_failures do
 
         expect(response).to render_template('pages')
         expect(response).to render_template('layouts/scrapbook/host_application')
-        expect(response.body).to match(%r{edge-case for /pages})
+        expect(response.body).to match(%r`edge-case for /pages`)
       ensure
         FileUtils.remove_file(scrapbook.pages_pathname.join('pages.html.erb'))
       end
