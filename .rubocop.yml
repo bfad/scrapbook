@@ -36,6 +36,7 @@ RSpec/BeNil:
   Enabled: false
 
 RSpec/ExampleLength:
+  Max: 7
   CountAsOne:
      - array
      - hash

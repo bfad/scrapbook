@@ -7,6 +7,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 gemspec
 
 gem 'propshaft'
+gem 'rails', "~> #{ENV.fetch('RAILS_VERSION', '7.0')}"
 
 # Start debugger with binding.b or debugger [https://github.com/ruby/debug]
 gem 'debug', '>= 1.0.0'
