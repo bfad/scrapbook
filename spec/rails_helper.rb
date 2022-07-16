@@ -61,6 +61,7 @@ RSpec.configure do |config|
   end
 
   config.include CustomHelpers
+  config.include ControllerHelpers, type: :controller
   config.include GeneratorHelpers, type: :generator
 
   config.before :each, type: :view do
