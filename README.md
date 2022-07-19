@@ -94,8 +94,8 @@ this by setting `config.scrapbook.precompile_assets` to "true":
 
 ## Contributing
 
-If you have a question about Scrapbook, feel free to ask in [the repository's Discussions]
-[Discussions]. Before starting any work or creating any issues, please read [the
+If you have a question about Scrapbook, feel free to ask in [the repository's
+Discussions][Discussions]. Before starting any work or creating any issues, please read [the
 contribution guidelines](CONTRIBUTING.md).
 
 ## Development Setup
@@ -139,4 +139,4 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-[Discussion]: https://github.com/bfad/scrapbook/discussions
+[Discussions]: https://github.com/bfad/scrapbook/discussions
