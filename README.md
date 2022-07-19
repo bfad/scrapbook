@@ -26,7 +26,7 @@ end
 
 And then execute:
 
-```bash
+```
 $> bundle install
 $> bundle exec rails generate scrapbook:install
 ```
@@ -70,12 +70,12 @@ path you want: `mount Scrapbook::Engine => "/scrappy"`.
 You can configure one or more folders to be separate root scrapbooks via the
 `config.scrapbook.paths` option. This option defaults to an empty array which allows for
 using the shovel operator to add your paths:
-    ```ruby
-    Rails.application.configure do
-      config.scrapbook.paths << Rails.root.join("scrapbooks/main")
-      config.scrapbook.paths << Rails.root.join("scrapbooks/scratch")
-    end
-    ```
+```ruby
+Rails.application.configure do
+  config.scrapbook.paths << Rails.root.join("scrapbooks/main")
+  config.scrapbook.paths << Rails.root.join("scrapbooks/scratch")
+end
+```
 If no paths have been added, Scrapbook will use `Rails.root.join('scrapbook')` as the
 location it expects the scrapbook to be at. The first folder path in the array is considered
 the default scrapbook and will be available at the root mount point configured in the routes
@@ -85,11 +85,11 @@ We recommend only running Scrapbook in development / non-production Rails enviro
 However, if you find yourself needing to be able to run it in an environment precompiles its
 assets, you will need to configure Scrapbook to be part of the precompilation. You can do
 this by setting `config.scrapbook.precompile_assets` to "true":
-    ```ruby
-    Rails.application.configure do
-      config.scrapbook.precompile_assets = true
-    end
-    ```
+```ruby
+Rails.application.configure do
+  config.scrapbook.precompile_assets = true
+end
+```
 
 
 ## Contributing
