@@ -25,7 +25,7 @@ RSpec.describe Scrapbook::Engine do
 
       expect(described_class.config.scrapbook.precompile_assets).to be false
       expect(described_class.config.assets.precompile)
-        .to exclude('scrapbook/tailwind.css')
+        .to exclude('scrapbook/application.css')
     end
 
     it 'allows the application to turn on asset precompilation' do
@@ -33,7 +33,7 @@ RSpec.describe Scrapbook::Engine do
 
       expect(described_class.config.scrapbook.precompile_assets).to be true
       expect(described_class.config.assets.precompile)
-        .to include('scrapbook/tailwind.css')
+        .to include('scrapbook/application.css')
     end
   end
 end

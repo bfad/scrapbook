@@ -116,7 +116,7 @@ Once Tailwind's CLI has been installed, you can run it using the command below t
 Scrapbook's CSS:
 
 ```
-$> npx tailwindcss -i app/assets/stylesheets/scrapbook/application.tailwind.css -o app/assets/builds/scrapbook/tailwind.css --minify --watch
+$> npx tailwindcss -i app/assets/stylesheets/scrapbook/application.tailwind.css -o app/assets/builds/scrapbook/application.css --minify --watch
 ```
 
 (Note, the "tailwindcss-rails" gem currently doesn't support Rails engines, so we have to
