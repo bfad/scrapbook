@@ -25,6 +25,11 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 ### Fixed
 
+- Links in the file browser for secondary scrapbooks now include the name of the scrapbook
+  in the path. Before, they wouldn't, and the links would take you to pages that didn't
+  exist in the primary scrapbook. (Or, if they did exist, were the ones in the primary one
+  and not the one you were looking for.)
+
 - Documentation typos and markup issues
 
 [Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.2.0...HEAD)

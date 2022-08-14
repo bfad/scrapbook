@@ -11,7 +11,11 @@ module Scrapbook
     def short_path_to(pathname, scrapbook = nil)
       scrapbook ||= Scrapbook.find_scrapbook_for(pathname)
 
-      view.short_page_path(scrapbook.relative_page_path_for(pathname)).gsub(/%2F/i, '/')
+      if scrapbook.root == ::Scrapbook::Engine.config.scrapbook.paths.first
+        view.short_page_path(scrapbook.relative_page_path_for(pathname))
+      else
+        view.book_page_path(scrapbook.relative_page_path_for(pathname), book: scrapbook.name)
+      end
     end
 
     def remove_handler_exts_from(pathname)

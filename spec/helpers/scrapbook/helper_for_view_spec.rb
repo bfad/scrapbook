@@ -1,24 +1,25 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'support/shared_contexts/scrapcook'
 
 RSpec.describe Scrapbook::HelperForView do
   describe '#short_path_to' do
     subject(:path) { described_class.new(helper).short_path_to(pathname, scrapbook) }
 
-    let(:pathname) { PathnameHelpers.new.pages_pathname.join(relative_folder_path) }
+    let(:pathname) { PathnameHelpers.new.pages_pathname.join(relative_path) }
     let(:scrapbook) { nil }
-    let(:relative_folder_path) { 'components/folder_name/sub_stuff' }
+    let(:relative_path) { 'components/folder_name/sub_stuff' }
 
-    it 'returns a linkable path to the specified folder with path dividers not URL escaped' do
-      expect(path).to eql(helper.short_page_path(relative_folder_path))
+    it 'returns a linkable path to the specified folder without the scrapbook prefix' do
+      expect(path).to eql(helper.short_page_path(relative_path))
     end
 
     context 'when provided the scrapbook the folder belongs to' do
       let(:scrapbook) { Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root) }
 
-      it 'returns a linkable path to the specified folder without escaping the path dividers' do
-        expect(path).to eql(helper.short_page_path(relative_folder_path))
+      it 'returns a linkable path to the specified folder' do
+        expect(path).to eql(helper.short_page_path(relative_path))
       end
     end
 
@@ -30,19 +31,19 @@ RSpec.describe Scrapbook::HelperForView do
     end
 
     context 'when provided a file pathname' do
-      let(:relative_file_path) { 'components/folder_name/with_panache.html.erb' }
+      let(:relative_path) { 'components/folder_name/with_panache.html.erb' }
 
-      it 'returns a linkable path to the specified folder without escaping the path dividers' do
-        expect(path).to eql(helper.short_page_path(relative_folder_path))
+      it 'returns a linkable path to the specified folder' do
+        expect(path).to eql(helper.short_page_path(relative_path))
       end
     end
 
     context 'when provided a scrapbook and a file that belongs to it' do
       let(:scrapbook) { Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root) }
-      let(:relative_file_path) { 'components/folder_name/with_panache.html.erb' }
+      let(:relative_path) { 'components/folder_name/with_panache.html.erb' }
 
-      it 'returns a linkable path to the specified folder without escaping the path dividers' do
-        expect(path).to eql(helper.short_page_path(relative_folder_path))
+      it 'returns a linkable path to the specified folder' do
+        expect(path).to eql(helper.short_page_path(relative_path))
       end
     end
 
@@ -51,6 +52,30 @@ RSpec.describe Scrapbook::HelperForView do
       let(:scrapbook) { Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root) }
 
       it { will_be_expected.to raise_error(ArgumentError) }
+    end
+
+    context 'when linking to folders in a scrapbook that is not the default one' do
+      include_context 'configure scrapcook'
+
+      let(:scrapbook_root) { PathnameHelpers.new.scrapbook_root('scrapcook') }
+      let(:pathname) { PathnameHelpers.new.pages_pathname(scrapbook_root).join(relative_path) }
+      let(:relative_path) { 'pastry' }
+
+      it 'returns a linkable path prefixed with the scrapbook' do
+        expect(path).to eql(helper.book_page_path(relative_path, book: 'scrapcook'))
+      end
+    end
+
+    context 'when linking to files in a scrapbook that is not the default one' do
+      include_context 'configure scrapcook'
+
+      let(:scrapbook_root) { PathnameHelpers.new.scrapbook_root('scrapcook') }
+      let(:pathname) { PathnameHelpers.new.pages_pathname(scrapbook_root).join(relative_path) }
+      let(:relative_path) { 'pastry/croissant.html.erb' }
+
+      it 'returns a linkable path prefixed with the scrapbook' do
+        expect(path).to eql(helper.book_page_path(relative_path, book: 'scrapcook'))
+      end
     end
   end
 

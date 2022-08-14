@@ -11,6 +11,6 @@ Scrapbook::Engine.routes.draw do
 
   get '.raw/:book/pages/*id', to: 'pages#raw', as: :raw_page,
     constraints: {book: book_regex, id: /.*/}, defaults: {raw: true}
-  get ':book/*id', to: 'pages#show', constraints: {book: book_regex, id: /.*/}
+  get ':book/*id', to: 'pages#show', constraints: {book: book_regex, id: /.*/}, as: :book_page
   get '*id', to: 'pages#show', constraints: {id: /.*/}, as: :short_page
 end
