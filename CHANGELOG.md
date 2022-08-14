@@ -8,6 +8,12 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 ## Unreleased
 
+[Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.2.1...HEAD)
+
+## 0.2.1 (2022-08-14)
+
+This is mostly some cleanup and a bugfix release.
+
 ### Added
 
 - The install generator now detects "app/assets/config/manifest.js" for Sprockets and adds
@@ -15,7 +21,9 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 ### Changed
 
-- Tailwind's generated file now named "tailwind.css" instead of "application.css".
+- Tailwind's generated file now named "tailwind.css" instead of "application.css". (This is
+  non-breaking because we were publishing both — "application.css" was essentially empty
+  before, and now it has the contents that had been in "tailwind.css".)
 
 ### Removed
 
@@ -32,7 +40,7 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 - Documentation typos and markup issues
 
-[Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.2.0...HEAD)
+[0.2.1 commits](https://github.com/bfad/scrapbook/compare/v0.2.0...v0.2.1)
 
 ## 0.2.0 (2022-07-18)
 
