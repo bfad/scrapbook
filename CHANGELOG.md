@@ -8,6 +8,10 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 ## Unreleased
 
+### Added
+
+- Support for running Scrapbook using Rails 6.1.
+
 [Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.2.1...HEAD)
 
 ## 0.2.1 (2022-08-14)

@@ -6,7 +6,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 # Specify your gem's dependencies in scrapbook.gemspec.
 gemspec
 
-gem 'propshaft'
 gem 'rails', "~> #{ENV.fetch('RAILS_VERSION', '7.0')}"
 
 # Start debugger with binding.b or debugger [https://github.com/ruby/debug]
@@ -22,3 +21,11 @@ gem 'rubocop-rails', require: false
 gem 'rubocop-rspec', require: false
 
 gem 'slim'
+
+# For the test application, boxcar, in the test folder
+if ENV.fetch('RAILS_VERSION', '7.0').to_i < 7
+  gem 'mail', '>= 2.8.0.rc1' # Remove when 2.8.0 released to support ruby 3.1
+  gem 'sprockets-rails', require: 'sprockets/railtie'
+else
+  gem 'propshaft'
+end

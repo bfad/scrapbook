@@ -8,4 +8,4 @@
 /test/boxcar/log/*.log
 /test/boxcar/tmp/
 /spec/examples.txt
-Gemfile.lock
+Gemfile.lock*

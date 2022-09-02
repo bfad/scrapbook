@@ -69,6 +69,9 @@ module Scrapbook
     end
 
     def scrapbook_template_exists?(scrapbook, template)
+      # It's deprecated, but Rails 6 allows for templates to be specified with extensions.
+      return false if Rails.version.to_i == 6 && template.include?('.')
+
       EmptyController.new.tap { |c| c.prepend_view_path(scrapbook.pages_pathname) }.template_exists?(template)
     end
   end
