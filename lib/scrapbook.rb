@@ -2,6 +2,7 @@
 
 require 'scrapbook/version'
 require 'scrapbook/engine'
+require 'scrapbook/routing'
 
 # TODO: Figure out documentation
 # Placeholder

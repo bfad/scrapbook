@@ -51,12 +51,9 @@ module Scrapbook
     private
 
     def find_scrapbook
-      scrapbook_path = if params[:book].present?
-        ::Scrapbook::Engine.config.scrapbook.paths.find { File.basename(_1) == params[:book] }
-      else
-        ::Scrapbook::Engine.config.scrapbook.paths.first
-      end
+      return nil if book_name.blank?
 
+      scrapbook_path = Engine.config.scrapbook.paths[book_name]
       scrapbook_path && Scrapbook.new(scrapbook_path)
     end
 
@@ -73,6 +70,10 @@ module Scrapbook
       return false if Rails.version.to_i == 6 && template.include?('.')
 
       EmptyController.new.tap { |c| c.prepend_view_path(scrapbook.pages_pathname) }.template_exists?(template)
+    end
+
+    def book_name
+      params[:'.book']
     end
   end
 end

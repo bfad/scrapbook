@@ -3,19 +3,21 @@
 require 'rails/generators'
 
 module Scrapbook
-  # A generator to create a new scrapbook at either the default (scrapbook) or specified
-  # path from the Rails application root.
+  # A generator to create a new scrapbook with  either the default (scrapbook) or specified
+  # name. (Using the default options for the URL path and folder root.)
   class RoutesGenerator < Rails::Generators::Base
-    argument :path, optional: true, default: '/scrapbook'
+    argument :name, optional: true, default: 'scrapbook'
 
     def routes
       # TODO: Investigate using a Rubocop rule to determine using single or double auotes.
-      url_path = path.start_with?('/') ? path : "/#{path}"
-      route <<~ROUTES
-        if Rails.env.development?
-          mount Scrapbook::Engine => '#{url_path}'
-        end
-      ROUTES
+
+      inject_into_file('config/routes.rb', after: "Rails.application.routes.draw do\n") do
+        "  extend Scrapbook::Routing\n"
+      end
+
+      inject_into_file('config/routes.rb', after: "extend Scrapbook::Routing\n") do
+        "\n  scrapbook('#{name}') if Rails.env.development?\n"
+      end
     end
   end
 end

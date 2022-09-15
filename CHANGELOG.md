@@ -12,6 +12,14 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 - Support for running Scrapbook using Rails 6.1.
 
+### Changed
+
+- Scrapbooks are now setup / configured via the `scrapbook` routing helper instead of adding
+  the path names to the configuration file directly. This means that each scrapbook mounts
+  the Scrapbook engine for its path.
+
+- The installation generators have been updated for the new configuration architecture.
+
 [Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.2.1...HEAD)
 
 ## 0.2.1 (2022-08-14)

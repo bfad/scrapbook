@@ -20,7 +20,7 @@ RSpec.describe Scrapbook::InstallGenerator do
       end
 
       it "adds the configuration for scrapbook's CSS file" do
-        generator.send(:sprockets_support)
+        capture(:stdout) { generator.send(:sprockets_support) }
         expect(relative_pathname('app/assets/config/manifest.js').read)
           .to match(%r`^//= link scrapbook/application.css$`)
       end
@@ -28,7 +28,7 @@ RSpec.describe Scrapbook::InstallGenerator do
 
     context 'without a sprockets manifest file' do
       it 'skips sprockets support' do
-        generator.send(:sprockets_support)
+        capture(:stdout) { generator.send(:sprockets_support) }
         expect(relative_pathname('app/assets/config/manifest.js')).not_to exist
       end
     end

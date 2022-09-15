@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'support/shared_contexts/scrapcook'
 
 RSpec.describe Scrapbook::HelperForView do
   describe '#short_path_to' do
@@ -52,30 +51,6 @@ RSpec.describe Scrapbook::HelperForView do
       let(:scrapbook) { Scrapbook::Scrapbook.new(PathnameHelpers.new.scrapbook_root) }
 
       it { will_be_expected.to raise_error(ArgumentError) }
-    end
-
-    context 'when linking to folders in a scrapbook that is not the default one' do
-      include_context 'configure scrapcook'
-
-      let(:scrapbook_root) { PathnameHelpers.new.scrapbook_root('scrapcook') }
-      let(:pathname) { PathnameHelpers.new.pages_pathname(scrapbook_root).join(relative_path) }
-      let(:relative_path) { 'pastry' }
-
-      it 'returns a linkable path prefixed with the scrapbook' do
-        expect(path).to eql(helper.book_page_path(relative_path, book: 'scrapcook'))
-      end
-    end
-
-    context 'when linking to files in a scrapbook that is not the default one' do
-      include_context 'configure scrapcook'
-
-      let(:scrapbook_root) { PathnameHelpers.new.scrapbook_root('scrapcook') }
-      let(:pathname) { PathnameHelpers.new.pages_pathname(scrapbook_root).join(relative_path) }
-      let(:relative_path) { 'pastry/croissant.html.erb' }
-
-      it 'returns a linkable path prefixed with the scrapbook' do
-        expect(path).to eql(helper.book_page_path(relative_path, book: 'scrapcook'))
-      end
     end
   end
 

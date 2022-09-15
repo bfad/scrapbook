@@ -5,11 +5,12 @@ require 'rails/generators'
 module Scrapbook
   # Initial default setup of Scrapbook
   class InstallGenerator < Rails::Generators::Base
-    class_option 'url-path', default: '/scrapbook'
     class_option 'path-with-name', default: 'scrapbook'
 
     def install
-      generate 'scrapbook:routes', options.fetch('url-path')
+      name = Pathname.new(options.fetch('path-with-name')).basename.to_s
+
+      generate 'scrapbook:routes', name
       generate 'scrapbook:new', options.fetch('path-with-name')
       sprockets_support
     end

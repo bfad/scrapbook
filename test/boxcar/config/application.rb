@@ -35,13 +35,5 @@ module Boxcar
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-
-    if ENV['USE_CUSTOM_PATH'].present?
-      config.scrapbook.paths << Rails.root.join('custom/scrapbook/path')
-    end
-
-    if ENV['PRECOMPILE_ASSETS'].present?
-      config.scrapbook.precompile_assets = true
-    end
   end
 end

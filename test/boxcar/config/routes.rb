@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  mount Scrapbook::Engine => '/scrapbook'
+  extend Scrapbook::Routing
+
+  scrapbook('scrapbook')
 end

@@ -4,33 +4,44 @@ require 'rails_helper'
 require 'generators/scrapbook/routes_generator'
 
 RSpec.describe Scrapbook::RoutesGenerator do
-  def regex_for_path(url_path)
-    /^\s*if Rails\.env\.development\?\s+mount Scrapbook::Engine => '#{url_path}'\s+end$/
+  def regex_for_scrapbook(name)
+    /^\s*scrapbook\('#{name}'\)\s+if Rails\.env\.development\?\s+end$/
   end
 
   before { prepare_routes_file }
 
   describe '#routes' do
-    it 'mounts the scrapbook engine route for the developement environment at the default path of "/scrapbook"' do
+    it 'adds the `extend` and `scrapbook` calls with the default name of "scrapbook"' do
       run_generator(:routes)
 
       expect(relative_pathname('config/routes.rb').read)
-        .to match(regex_for_path('/scrapbook'))
+        .to match(regex_for_scrapbook('scrapbook'))
+      expect(relative_pathname('config/routes.rb').read)
+        .to include('extend Scrapbook::Routing')
     end
 
-    context 'when specifiying the URL path' do
-      it 'uses the specified path for the mount path' do
-        run_generator(:routes, '/bookit')
+    it 'adds the `scrapbook` call with the specified name' do
+      run_generator(:routes, 'bookit')
 
-        expect(relative_pathname('config/routes.rb').read)
-          .to match(regex_for_path('/bookit'))
+      expect(relative_pathname('config/routes.rb').read)
+        .to match(regex_for_scrapbook('bookit'))
+      expect(relative_pathname('config/routes.rb').read)
+        .to include('extend Scrapbook::Routing')
+    end
+
+    context 'when the "extend" call already exists' do
+      before do
+        relative_pathname('config/routes.rb')
+          .write("Rails.application.routes.draw do\n  extend Scrapbook::Routing\nend")
       end
 
-      it 'prepends a slash if the argument is missing it' do
-        run_generator(:routes, 'bookit')
+      it "doesn't add an additional extend line" do
+        run_generator(:routes)
 
-        expect(relative_pathname('config/routes.rb').read)
-          .to match(regex_for_path('/bookit'))
+        extend_count = relative_pathname('config/routes.rb').read
+          .scan(/(?=extend Scrapbook::Routing)/).count
+
+        expect(extend_count).to be 1
       end
     end
   end

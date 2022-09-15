@@ -31,8 +31,9 @@ $> bundle install
 $> bundle exec rails generate scrapbook:install
 ```
 
-This will install the gem and setup the default Scrapbook route and create the default
-scrapbook directory structure at the root of your Rails application.
+This will install the gem and then setup a scrapbook directory structure with a folder named
+"scrapbook" at the root of your Rails application as well as modify your routes to make the
+scrapbook available.
 
 ## Usage
 
@@ -48,38 +49,32 @@ the main display area describing how to customize what is displayed when a folde
 selected. In short, you need to create a template file with the same base name as the folder
 in the same directory as the folder. So if you had a folder at "scrapbook/pages/scratch",
 then you would need to create a file named something like "scrapbook/pages/scratch.html.erb"
-with the custom display you want to see when you click on the "scratch" folder in the file
+with the custom view you want to see when you click on the "scratch" folder in the file
 browser. This also works for the main screen you see at the base scrapbook URL. You can
 customize that screen by creating a "pages.html" template file in the root scrapbook folder.
 (The default installation creates a "pages.html.erb" template file for the basic welcome
 message.)
 
-To view a scrapbook, navigate to its base URL. The default scarpbook can always be accessed
-at the mountpoint setup in the routes file (this is "/scrapbook" by default). The base URL
-for other scrapbooks is that path followed by the name of the scrapbook's root folder (the
-folder that contains the "pages" folder). By default, only one scrapbook is configured and
-it's name is "scrapbook" which means that both "/scrapbook" and "/scrapbook/scrapbook" point
-to the same scrapbook root page.
+To view a scrapbook, navigate to its base URL setup by the route file configuration. (See
+the documentation for the `scrapbook` route helper for more information on how to conigure
+this route.)
 
 ## Configuration
 
-You can configure the path that Scrapbook runs on in your "config/routes.rb" file. The
-default configuration is to mount Scrapbook on "/scrapbook", but you can use whatever
-path you want: `mount Scrapbook::Engine => "/scrappy"`.
+The installation task adds `extend Scrapbook::Routing` to the routes configuration block
+which gives it access to the `scrapbook` route helper. It also addds a scrapbook named
+"scrapbook" using that helper (`scrapbook('scrapbook')`). You can modify that configuration,
+specifying the location of the folder root or the URL path to mount the scrapbook at. You
+can also add additional scrapbooks using this helper. For example:
 
-You can configure one or more folders to be separate root scrapbooks via the
-`config.scrapbook.paths` option. This option defaults to an empty array which allows for
-using the shovel operator to add your paths:
 ```ruby
-Rails.application.configure do
-  config.scrapbook.paths << Rails.root.join("scrapbooks/main")
-  config.scrapbook.paths << Rails.root.join("scrapbooks/scratch")
+Rails.application.routes.draw do
+  extend Scrapbook::Routing
+
+  scrapbook('main', at: '/scrapbook', folder_root: 'scrapbooks/main')
+  scrapbook('scratch', folder_root: 'scrapbooks/scratch')
 end
 ```
-If no paths have been added, Scrapbook will use `Rails.root.join('scrapbook')` as the
-location it expects the scrapbook to be at. The first folder path in the array is considered
-the default scrapbook and will be available at the root mount point configured in the routes
-file.
 
 We recommend only running Scrapbook in development / non-production Rails environments.
 However, if you find yourself needing to be able to run it in an environment precompiles its

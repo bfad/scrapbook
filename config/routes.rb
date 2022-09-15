@@ -1,16 +1,13 @@
 # frozen_string_literal: true
 
 Scrapbook::Engine.routes.draw do
-  book_regex = /#{Scrapbook::Engine.config.scrapbook.paths.map { File.basename(_1) }.join('|')}/
+  # TODO: Future plans
+  # scope path: '/.editor' do
+  #   resources :pages, id: /.+/, only: %i[new create edit update]
+  # end
 
-  resources :pages, id: /.+/
-  resources :pages, path: ':book/pages', id: /.+/, constraints: {book: book_regex}
-
-  get ':book', to: 'pages#index', constraints: {book: book_regex}
   root 'pages#index'
 
-  get '.raw/:book/pages/*id', to: 'pages#raw', as: :raw_page,
-    constraints: {book: book_regex, id: /.*/}, defaults: {raw: true}
-  get ':book/*id', to: 'pages#show', constraints: {book: book_regex, id: /.*/}, as: :book_page
+  get '.raw/pages/*id', to: 'pages#raw', constraints: {id: /.*/}, as: :raw_page
   get '*id', to: 'pages#show', constraints: {id: /.*/}, as: :short_page
 end

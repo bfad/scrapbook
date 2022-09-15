@@ -9,11 +9,11 @@ module Scrapbook
 
     def self.find_scrapbook_for(pathname)
       scrapbooks = ::Scrapbook::Engine.config.scrapbook.paths
-      candidates = scrapbooks.each_with_index.filter_map do |pname, index|
+      candidates = scrapbooks.filter_map do |book, pname|
         relative_path = pathname.relative_path_from(pname)
         next if relative_path.to_s.start_with?('..')
 
-        [index, relative_path.each_filename.count]
+        [book, relative_path.each_filename.count]
       end
       raise NotFoundError if candidates.empty?
 
@@ -25,7 +25,7 @@ module Scrapbook
     end
 
     def name
-      root.basename
+      root.basename.to_s
     end
 
     def pages_pathname

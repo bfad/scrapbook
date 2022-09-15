@@ -20,7 +20,7 @@ RSpec.describe Scrapbook::Scrapbook do
 
       before do
         allow(::Scrapbook::Engine.config.scrapbook).to receive(:paths)
-          .and_return([base_pathname, nested_pathname])
+          .and_return({'book1' => base_pathname, 'nested' => nested_pathname})
       end
 
       it { is_expected.to eql(described_class.new(nested_pathname)) }
@@ -36,7 +36,7 @@ RSpec.describe Scrapbook::Scrapbook do
   describe '#name' do
     subject { scrapbook.name }
 
-    it { is_expected.to eql(scrapbook.root.basename) }
+    it { is_expected.to eql(scrapbook.root.basename.to_s) }
   end
 
   describe '#pages_pathname' do
