@@ -5,40 +5,28 @@ module Scrapbook
   class PagesController < ApplicationController
     self.view_paths = Engine.config.paths['app/views'].to_a
 
-    def index
-      return head(:not_found) if (scrapbook = find_scrapbook).nil?
-      return head(:not_found) unless (pathname = calculate_pathname(scrapbook, params[:path])).directory?
-
-      if pathname == scrapbook.pages_pathname
-        prepend_view_path(scrapbook.root)
-        render template: 'pages', locals: {scrapbook: scrapbook, pathname: pathname}
-      else
-        render locals: {scrapbook: scrapbook, pathname: pathname}
-      end
-    end
-
     def show
       return head(:not_found) if (scrapbook = find_scrapbook).nil?
 
       pathname = calculate_pathname(scrapbook, params[:id])
-      template = params[:id].delete_suffix('.html')
+      template = calculate_template
 
-      if !scrapbook_template_exists?(scrapbook, template) && pathname.directory?
-        render 'scrapbook/pages/index', locals: {scrapbook: scrapbook, pathname: pathname}
-      else
-        render locals: {scrapbook: scrapbook, pathname: pathname}, formats: [:html]
-      end
+      render locals: {scrapbook: scrapbook, pathname: pathname}, formats: [:html]
     end
 
     def raw
       return head(:not_found) if (scrapbook = find_scrapbook).nil?
 
       pathname = calculate_pathname(scrapbook, params[:id])
-      template = params[:id].delete_suffix('.html')
+      template = calculate_template
 
       if scrapbook_template_exists?(scrapbook, template)
-        prepend_view_path(scrapbook.pages_pathname)
+        prepend_view_path(scrapbook.root)
         render template: template,
+          locals: {scrapbook: scrapbook, pathname: pathname},
+          layout: 'layouts/scrapbook/host_application'
+      elsif pathname.directory?
+        render '/pages',
           locals: {scrapbook: scrapbook, pathname: pathname},
           layout: 'layouts/scrapbook/host_application'
       elsif pathname.exist?
@@ -58,18 +46,20 @@ module Scrapbook
     end
 
     def calculate_pathname(scrapbook, path)
-      if path.present?
-        scrapbook.pages_pathname.join(path)
-      else
-        scrapbook.pages_pathname
-      end
+      scrapbook.pages_pathname.join(path || '')
+    end
+
+    def calculate_template
+      return 'pages' if params[:id].blank?
+
+      "pages/#{params[:id].delete_suffix('.html')}"
     end
 
     def scrapbook_template_exists?(scrapbook, template)
       # It's deprecated, but Rails 6 allows for templates to be specified with extensions.
       return false if Rails.version.to_i == 6 && template.include?('.')
 
-      EmptyController.new.tap { |c| c.prepend_view_path(scrapbook.pages_pathname) }.template_exists?(template)
+      EmptyController.new.tap { |c| c.prepend_view_path(scrapbook.root) }.template_exists?(template)
     end
 
     def book_name

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= local_assigns[:scrapbook].name || 'Scrapbook' %>: <%= content_for?(:title) ? yield(:title) : local_assigns[:pathname].basename %></title>
+  <title><%= local_assigns[:scrapbook]&.name || 'Scrapbook' %>: <%= content_for?(:title) ? yield(:title) : local_assigns[:pathname]&.basename %></title>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
