@@ -30,7 +30,7 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
   template now renders through the iframe to the raw routes. This means they can be styled
   like the rest of the templates when we add support for customizing the layout.
 
-[Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.2.1...v0.2.2)
+[0.2.2 commits](https://github.com/bfad/scrapbook/compare/v0.2.1...v0.2.2)
 
 ## 0.2.1 (2022-08-14)
 
