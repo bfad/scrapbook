@@ -10,6 +10,10 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 [Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.2.2...HEAD)
 
+### Added
+
+- Turbo from the Hotwire stack.
+
 ## 0.2.2 (2022-09-30)
 
 ### Added

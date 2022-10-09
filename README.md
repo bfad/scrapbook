@@ -117,6 +117,12 @@ $> npx tailwindcss -i app/assets/stylesheets/scrapbook/application.tailwind.css 
 (Note, the "tailwindcss-rails" gem currently doesn't support Rails engines, so we have to
 install and run Tailwind manually.)
 
+## Updating the Turbo javascript
+
+- Download the compiled JS file from the turbo rails gem. (The releases on the Turbo website
+  didn't include it.)
+- Comment out or remove the `export` statement towards the end.
+
 ## License
 
 Copyright 2022 Brad Lindsay
