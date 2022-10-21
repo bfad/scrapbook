@@ -21,7 +21,8 @@ module Scrapbook
       relative_path = 'app/assets/config/manifest.js'
       return unless FileTest.exist?(File.expand_path(relative_path, destination_root))
 
-      insert_into_file(relative_path, '//= link scrapbook/application.css')
+      insert_into_file(relative_path, "//= link scrapbook/application.css\n")
+      insert_into_file(relative_path, "//= link scrapbook/application.js\n")
     end
   end
 end

@@ -12,7 +12,11 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 ### Added
 
-- Turbo from the Hotwire stack.
+- Turbo from the Hotwire stack. To get this functionality, you may need to add the following
+  to your Sprocket's "manifest.js" file: `//= link scrapbook/application.js`.
+
+- Configuring the Sprocket's "manifest.js" file to include Scrapbook's "application.js" file
+  in the install generator.
 
 ## 0.2.2 (2022-09-30)
 
