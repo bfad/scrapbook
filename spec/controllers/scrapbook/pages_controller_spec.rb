@@ -21,9 +21,9 @@ RSpec.describe Scrapbook::PagesController, :aggregate_failures do
     it 'renders the show template for a folder with a template file' do
       get :show, params: {'.book': 'scrapbook', id: 'components/folder_name'}
 
-      expect(response).to have_http_status(:ok).
-        and render_template('layouts/scrapbook/application').
-        and render_template(:show)
+      expect(response).to have_http_status(:ok)
+        .and render_template('layouts/scrapbook/application')
+        .and render_template(:show)
       expect(template_locals).to include(
         scrapbook: scrapbook,
         pathname: scrapbook.pages_pathname.join('components/folder_name')
@@ -33,9 +33,9 @@ RSpec.describe Scrapbook::PagesController, :aggregate_failures do
     it 'renders the show template for a folder without a template file' do
       get :show, params: {'.book': 'scrapbook', id: 'components/folder_name/sub_stuff'}
 
-      expect(response).to have_http_status(:ok).
-        and render_template('layouts/scrapbook/application').
-        and render_template(:show)
+      expect(response).to have_http_status(:ok)
+        .and render_template('layouts/scrapbook/application')
+        .and render_template(:show)
       expect(template_locals).to include(
         scrapbook: scrapbook,
         pathname: scrapbook.pages_pathname.join('components/folder_name/sub_stuff')
@@ -45,9 +45,9 @@ RSpec.describe Scrapbook::PagesController, :aggregate_failures do
     it 'renders the show template for the specified template' do
       get :show, params: {'.book': 'scrapbook', id: 'welcome'}
 
-      expect(response).to have_http_status(:ok).
-        and render_template('layouts/scrapbook/application').
-        and render_template(:show)
+      expect(response).to have_http_status(:ok)
+        .and render_template('layouts/scrapbook/application')
+        .and render_template(:show)
       expect(template_locals).to include(
         scrapbook: scrapbook,
         pathname: scrapbook.pages_pathname.join('welcome')
@@ -57,9 +57,9 @@ RSpec.describe Scrapbook::PagesController, :aggregate_failures do
     it 'renders the show template when a template exists that matches a request with an "html" extension' do
       get :show, params: {'.book': 'scrapbook', id: 'welcome.html'}
 
-      expect(response).to have_http_status(:ok).
-        and render_template('layouts/scrapbook/application').
-        and render_template(:show)
+      expect(response).to have_http_status(:ok)
+        .and render_template('layouts/scrapbook/application')
+        .and render_template(:show)
       expect(template_locals).to include(
         scrapbook: scrapbook,
         pathname: scrapbook.pages_pathname.join('welcome.html')
@@ -69,9 +69,9 @@ RSpec.describe Scrapbook::PagesController, :aggregate_failures do
     it 'renders the show template when a non-template file is requested' do
       get :show, params: {'.book': 'scrapbook', id: 'assets/fireworks.jpg'}
 
-      expect(response).to have_http_status(:ok).
-        and render_template('layouts/scrapbook/application').
-        and render_template(:show)
+      expect(response).to have_http_status(:ok)
+        .and render_template('layouts/scrapbook/application')
+        .and render_template(:show)
       expect(template_locals).to include(
         scrapbook: scrapbook,
         pathname: scrapbook.pages_pathname.join('assets/fireworks.jpg')
@@ -81,9 +81,9 @@ RSpec.describe Scrapbook::PagesController, :aggregate_failures do
     it "renders the show template when the path doesn't exist" do
       get :show, params: {'.book': 'scrapbook', id: 'missing'}
 
-      expect(response).to have_http_status(:ok).
-        and render_template('layouts/scrapbook/application').
-        and render_template(:show)
+      expect(response).to have_http_status(:ok)
+        .and render_template('layouts/scrapbook/application')
+        .and render_template(:show)
       expect(template_locals).to include(
         scrapbook: scrapbook,
         pathname: scrapbook.pages_pathname.join('missing')
@@ -128,7 +128,7 @@ RSpec.describe Scrapbook::PagesController, :aggregate_failures do
       expect(response).to render_template('layouts/scrapbook/host_application')
     end
 
-    context "with view rendering" do
+    context 'with view rendering' do
       render_views
 
       it 'renders the message about creating templates for selected folder that does not have one' do

@@ -9,8 +9,6 @@ module Scrapbook
       return head(:not_found) if (scrapbook = find_scrapbook).nil?
 
       pathname = calculate_pathname(scrapbook, params[:id])
-      template = calculate_template
-
       render locals: {scrapbook: scrapbook, pathname: pathname}, formats: [:html]
     end
 
