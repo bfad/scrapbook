@@ -60,16 +60,16 @@ RSpec.describe Scrapbook::FolderListingViewModel do
   end
 
   describe '#header_name' do
-    it 'only prefixes the scrapbook name when listing the root folder' do
+    it 'returns the scrapbook name when listing the root folder' do
       pathname = PathnameHelpers.new.pages_pathname
       listing = described_class.new(helper, scrapbook, pathname)
-      expect(listing.header_name).to eql("/#{scrapbook.name}")
+      expect(listing.header_name).to eql(scrapbook.name)
     end
 
-    it 'prefixes and suffixes the folder name with a slash' do
+    it 'returns the name of the folder' do
       pathname = PathnameHelpers.new.pages_pathname.join('components')
       listing = described_class.new(helper, scrapbook, pathname)
-      expect(listing.header_name).to eql('/components/')
+      expect(listing.header_name).to eql('components')
     end
   end
 
@@ -115,6 +115,34 @@ RSpec.describe Scrapbook::FolderListingViewModel do
       expect(listing.files).not_to include(hidden)
     ensure
       FileUtils.remove_file(hidden)
+    end
+  end
+
+  describe '#depth' do
+    subject(:listing) { described_class.new(helper, scrapbook, pathname) }
+
+    context 'when listing the root folders' do
+      let(:pathname) { PathnameHelpers.new.pages_pathname }
+
+      it 'returns 0' do
+        expect(listing.depth).to be 0
+      end
+    end
+
+    context 'when listing a sub-folder' do
+      let(:pathname) { PathnameHelpers.new.pages_pathname.join('components/folder_name/sub_stuff') }
+
+      it 'returns how many parent folders it has including the root' do
+        expect(listing.depth).to be 3
+      end
+    end
+
+    context 'when listing a file' do
+      let(:pathname) { PathnameHelpers.new.pages_pathname.join('components/folder_name/with_panache.html.erb') }
+
+      it 'returns the depth of its parent folder' do
+        expect(listing.depth).to be 2
+      end
     end
   end
 end

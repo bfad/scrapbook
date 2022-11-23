@@ -1,1 +1,3 @@
-<iframe src="<%= raw_page_path(scrapbook.relative_page_path_for(pathname)) %>" class="w-full h-full"></iframe>
+<turbo-frame id="page_content" class="w-full h-full" data-turbo-action="advance">
+  <iframe src="<%= raw_page_path(scrapbook.relative_page_path_for(pathname)) %>" class="w-full h-full"></iframe>
+</turbo-frame>

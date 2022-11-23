@@ -15,8 +15,12 @@ Layout/EndAlignment:
 Layout/FirstHashElementIndentation:
   EnforcedStyle: consistent
 
+Layout/MultilineMethodCallBraceLayout:
+  EnforcedStyle: new_line
+
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
+  rubocop: warning
 
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space

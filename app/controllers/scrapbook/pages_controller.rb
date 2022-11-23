@@ -5,11 +5,19 @@ module Scrapbook
   class PagesController < ApplicationController
     self.view_paths = Engine.config.paths['app/views'].to_a
 
+    layout -> { false if request.headers.include?('Turbo-Frame') }
+
     def show
       return head(:not_found) if (scrapbook = find_scrapbook).nil?
 
       pathname = calculate_pathname(scrapbook, params[:id])
-      render locals: {scrapbook: scrapbook, pathname: pathname}, formats: [:html]
+
+      if request.headers['Turbo-Frame']&.start_with?('path_')
+        render partial: 'layouts/scrapbook/folder_listing',
+          locals: {scrapbook: scrapbook, pathname: pathname}
+      else
+        render locals: {scrapbook: scrapbook, pathname: pathname}, formats: [:html]
+      end
     end
 
     def raw

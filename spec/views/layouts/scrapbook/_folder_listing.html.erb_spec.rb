@@ -11,7 +11,7 @@ RSpec.describe 'layouts/scrapbook/folder_listing' do
       render partial: self.class.top_level_description,
         locals: {scrapbook: scrapbook, pathname: scrapbook.pages_pathname}
 
-      expect(parsed.at_css('header').text).to eql("/#{scrapbook.name}")
+      expect(parsed.at_css('header > a').text).to eql(scrapbook.name)
     end
 
     it 'renders the folder name' do
@@ -20,7 +20,7 @@ RSpec.describe 'layouts/scrapbook/folder_listing' do
       render partial: self.class.top_level_description,
         locals: {scrapbook: scrapbook, pathname: pathname}
 
-      expect(parsed.at('header').text).to eql("/#{pathname.basename}/")
+      expect(parsed.at('header > a').text).to eql(pathname.basename.to_s)
     end
 
     context 'when sub-page is selected' do
@@ -31,7 +31,7 @@ RSpec.describe 'layouts/scrapbook/folder_listing' do
           locals: {scrapbook: scrapbook, pathname: dir_name.join('with_panache')}
 
         header_link = parsed.at('header > a')
-        expect(header_link.text).to eql("/#{dir_name.basename}/")
+        expect(header_link.text).to eql(dir_name.basename.to_s)
         expect(header_link.get_attribute(:href))
           .to eql(controller.short_page_path(dir_name.relative_path_from(scrapbook.pages_pathname)))
       end
@@ -102,8 +102,8 @@ RSpec.describe 'layouts/scrapbook/folder_listing' do
 
     expect(contents).not_to be_empty
     contents.each do |child|
-      value = child.directory? ? "#{child.basename}/" : child.basename.sub(/\..*\z/, '')
-      expect(parsed.at(%[li > a:contains("#{value}")])).to be_present
+      value = child.directory? ? child.basename : child.basename.sub(/\..*\z/, '')
+      expect(parsed.at(%[li a:contains("#{value}")])).to be_present
     end
   end
 
@@ -123,6 +123,6 @@ RSpec.describe 'layouts/scrapbook/folder_listing' do
     render partial: self.class.top_level_description,
       locals: {scrapbook: scrapbook, pathname: pathname}
 
-    expect(parsed.css(%[li > a:contains("folder_name")]).size).to be 1
+    expect(parsed.css(%[li a:contains("folder_name")]).size).to be 1
   end
 end

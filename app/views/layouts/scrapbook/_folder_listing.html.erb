@@ -2,8 +2,48 @@
   helper = Scrapbook::HelperForView.new(self)
   listing = Scrapbook::FolderListingViewModel.new(self, scrapbook, pathname)
   pathname_without_handler_exts = helper.remove_handler_exts_from(pathname)
+  indentation_depth = (local_assigns[:nav_depth] || listing.depth) + 1
 %>
 <% unless listing.root? %><%= link_to "‹ #{listing.parent_display_name}", helper.short_path_to(listing.pathname.parent), class: 'back-to-parent block w-100' %><% end %>
-<header aria-label="Which folder's contents" class="text-2xl <%= listing.pathname == pathname ? 'bg-sky-100' : '!px-0 children:px-4' %>"><% if listing.pathname == pathname %><span aria-current="page"><%= listing.header_name %></span><% else %><%= link_to(listing.header_name, helper.short_path_to(listing.pathname), class: 'block w-100') %><% end %></header>
-<ul class="!px-0" aria-label="Sub-folders"><% listing.folders.each do |folder| %><li class="children:px-4"><%= link_to "#{folder.basename}/", helper.short_path_to(folder, scrapbook), class: 'block w-100' %></li><% end %></ul>
-<ul class="!px-0" aria-label="Sub-files"><% listing.files.each do |file| %><% next if listing.folders.include?(file) %><li class="children:px-4"><% if file == pathname_without_handler_exts %><span class="block w-100 bg-sky-100" aria-current="page"><%= file.basename %></span><% else %><%= link_to file.basename, helper.short_path_to(file, scrapbook), class: 'block w-100' %><% end %></li><% end %></ul>
+<header aria-label="Which folder's contents" class="text-2xl !px-0 children:px-4">
+  <%
+    link_attrs = {class: %w[block w-100], aria: {}}
+    if listing.pathname == pathname
+      link_attrs[:aria][:current] = 'page'
+      link_attrs[:class] << 'bg-sky-100'
+    end
+  %>
+  <%= link_to(listing.header_name, helper.short_path_to(listing.pathname), 'data-turbo-frame': 'page_content', **link_attrs) %>
+</header>
+
+
+<turbo-frame id="path_<%= pathname.hash %>">
+
+<ul aria-label="Sub-folders">
+  <% listing.folders.each do |folder| %>
+  <li>
+    <details>
+      <summary class="flex" style="padding-left: <%= indentation_depth %>rem;"><%= link_to "#{folder.basename}", helper.short_path_to(folder, scrapbook), 'data-turbo-frame': 'page_content', class: 'block grow' %></summary>
+      <turbo-frame id="path_<%= folder.hash %>" src="<%= helper.short_path_to(folder, scrapbook) %>" loading="lazy"></turbo-frame>
+    </details>
+  </li>
+  <% end %>
+</ul>
+
+
+<ul aria-label="Sub-files">
+<% listing.files.each do |file| %><% next if listing.folders.include?(file) %>
+  <li>
+  <%
+    link_attrs = {class: %w[block w-100], aria: {}}
+    if file == pathname_without_handler_exts
+      link_attrs[:aria][:current] = 'page'
+      link_attrs[:class] << 'bg-sky-100'
+    end
+  %>
+  <%= link_to file.basename, helper.short_path_to(file, scrapbook), 'data-turbo-frame': 'page_content', style: "padding-left: #{indentation_depth}rem;", **link_attrs %>
+  </li>
+<% end %>
+</ul>
+
+</turbo-frame>

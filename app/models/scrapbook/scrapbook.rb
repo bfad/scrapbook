@@ -43,6 +43,15 @@ module Scrapbook
       relative_path
     end
 
+    def relative_page_pathname_for(pathname)
+      relative_path = pathname.relative_path_from(pages_pathname)
+      if relative_path.to_s.start_with?('..')
+        raise ArgumentError, "Pathname isn't inside the scrapbook pages: #{relative_path}"
+      end
+
+      relative_path
+    end
+
     def ==(other)
       other.class == self.class && other.root == root
     end

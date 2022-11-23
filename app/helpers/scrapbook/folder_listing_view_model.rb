@@ -3,12 +3,13 @@
 module Scrapbook
   # Model to assest list a folder's contents
   class FolderListingViewModel
-    attr_reader :view, :scrapbook, :pathname, :files, :folders
+    attr_reader :view, :scrapbook, :pathname, :files, :folders, :depth
 
     def initialize(view, scrapbook, pathname)
       self.view = view
       self.scrapbook = scrapbook
       self.pathname = pathname.directory? ? pathname : pathname.dirname
+      self.depth = calculate_depth
       self.folders, self.files = split_files_and_folders
     end
 
@@ -24,12 +25,18 @@ module Scrapbook
     end
 
     def header_name
-      root? ? "/#{scrapbook.name}" : "/#{pathname.basename}/"
+      root? ? scrapbook.name : pathname.basename.to_s
     end
 
     private
 
-    attr_writer :view, :scrapbook, :pathname, :files, :folders
+    attr_writer :view, :scrapbook, :pathname, :files, :folders, :depth
+
+    def calculate_depth
+      return 0 if pathname == scrapbook.pages_pathname
+
+      scrapbook.relative_page_pathname_for(pathname).descend.count
+    end
 
     def split_files_and_folders
       helper = HelperForView.new(view)
