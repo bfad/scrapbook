@@ -16,10 +16,5 @@ module Scrapbook
         ]
       end
     end
-
-    # From: turbo-rails
-    initializer 'turbo.mimetype' do
-      Mime::Type.register 'text/vnd.turbo-stream.html', :turbo_stream
-    end
   end
 end

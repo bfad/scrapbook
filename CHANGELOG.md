@@ -10,6 +10,11 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 [Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.2.2...HEAD)
 
+### Changed
+
+- The navigation tree now using Turbo and custom JavaScript to behave like a file / folder
+  navigation tree.
+
 ### Added
 
 - Turbo from the Hotwire stack. To get this functionality, you may need to add the following

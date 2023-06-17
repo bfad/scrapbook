@@ -22,14 +22,6 @@
     line-height:inherit;
   }
 
-  body > nav a:hover {
-    background-color: theme('colors.sky.50');
-  }
-
-  body > nav a:active {
-    background-color: theme('colors.sky.200');
-  }
-
   turbo-frame {
     display: block;
   }

@@ -3,47 +3,28 @@
   listing = Scrapbook::FolderListingViewModel.new(self, scrapbook, pathname)
   pathname_without_handler_exts = helper.remove_handler_exts_from(pathname)
   indentation_depth = (local_assigns[:nav_depth] || listing.depth) + 1
+  selection_classes = "active:bg-sky-200 hover:bg-sky-50 [&:has([aria-current=page])]:bg-sky-100"
 %>
-<% unless listing.root? %><%= link_to "‹ #{listing.parent_display_name}", helper.short_path_to(listing.pathname.parent), class: 'back-to-parent block w-100' %><% end %>
-<header aria-label="Which folder's contents" class="text-2xl !px-0 children:px-4">
-  <%
-    link_attrs = {class: %w[block w-100], aria: {}}
-    if listing.pathname == pathname
-      link_attrs[:aria][:current] = 'page'
-      link_attrs[:class] << 'bg-sky-100'
-    end
-  %>
-  <%= link_to(listing.header_name, helper.short_path_to(listing.pathname), 'data-turbo-frame': 'page_content', **link_attrs) %>
+<% unless listing.root? %><%= link_to "‹ #{listing.parent_display_name}", helper.short_path_to(listing.pathname.parent, scrapbook), class: 'back-to-parent block w-100' %><% end %>
+<header aria-label="Which folder's contents" class="text-2xl !px-0 children:px-4 <%= selection_classes %>">
+  <%= helper.nav_link_for(scrapbook: scrapbook, pathname: listing.pathname, is_current: pathname == listing.pathname) %>
 </header>
-
-
 <turbo-frame id="path_<%= pathname.hash %>">
-
-<ul aria-label="Sub-folders">
+  <ul aria-label="Sub-folders">
   <% listing.folders.each do |folder| %>
-  <li>
-    <details>
-      <summary class="flex" style="padding-left: <%= indentation_depth %>rem;"><%= link_to "#{folder.basename}", helper.short_path_to(folder, scrapbook), 'data-turbo-frame': 'page_content', class: 'block grow' %></summary>
-      <turbo-frame id="path_<%= folder.hash %>" src="<%= helper.short_path_to(folder, scrapbook) %>" loading="lazy"></turbo-frame>
-    </details>
-  </li>
+    <li>
+      <details>
+        <summary class="flex <%= selection_classes %>" style="padding-left: <%= indentation_depth %>rem;">
+          <%= helper.nav_link_for(scrapbook: scrapbook, pathname: folder, class: 'grow') %>
+        </summary>
+        <turbo-frame id="path_<%= folder.hash %>" src="<%= helper.short_path_to(folder, scrapbook) %>" loading="lazy"></turbo-frame>
+      </details>
+    </li>
   <% end %>
-</ul>
-
-
-<ul aria-label="Sub-files">
-<% listing.files.each do |file| %><% next if listing.folders.include?(file) %>
-  <li>
-  <%
-    link_attrs = {class: %w[block w-100], aria: {}}
-    if file == pathname_without_handler_exts
-      link_attrs[:aria][:current] = 'page'
-      link_attrs[:class] << 'bg-sky-100'
-    end
-  %>
-  <%= link_to file.basename, helper.short_path_to(file, scrapbook), 'data-turbo-frame': 'page_content', style: "padding-left: #{indentation_depth}rem;", **link_attrs %>
-  </li>
-<% end %>
-</ul>
-
+  </ul>
+  <ul aria-label="Sub-files">
+  <% listing.files.each do |file| %><% next if listing.folders.include?(file) %>
+    <li class="<%= selection_classes %>"><%= helper.nav_link_for(scrapbook: scrapbook, pathname: file, is_current: file == pathname_without_handler_exts, depth: indentation_depth) %></li>
+  <% end %>
+  </ul>
 </turbo-frame>
