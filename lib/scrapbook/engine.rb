@@ -11,9 +11,7 @@ module Scrapbook
 
     initializer 'scrapbook.assets' do |app|
       if app.config.scrapbook.precompile_assets && app.config.respond_to?(:assets)
-        app.config.assets.precompile.concat %w[
-          scrapbook/application.css
-        ]
+        app.config.assets.precompile.push('scrapbook/application.css')
       end
     end
   end

@@ -19,7 +19,7 @@ RSpec.describe Scrapbook::Scrapbook do
       let(:pathname) { nested_pathname.join('pages/far/and/wide.html.haml') }
 
       before do
-        allow(::Scrapbook::Engine.config.scrapbook).to receive(:paths)
+        allow(Scrapbook::Engine.config.scrapbook).to receive(:paths)
           .and_return({'book1' => base_pathname, 'nested' => nested_pathname})
       end
 

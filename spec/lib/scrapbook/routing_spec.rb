@@ -10,7 +10,7 @@ RSpec.describe Scrapbook::Routing do
     let(:books) { {} }
 
     before do
-      allow(::Scrapbook::Engine.config.scrapbook).to receive(:paths)
+      allow(Scrapbook::Engine.config.scrapbook).to receive(:paths)
         .and_return(books)
       allow(object).to receive(:mount)
     end
@@ -25,7 +25,7 @@ RSpec.describe Scrapbook::Routing do
       object.scrapbook('book')
 
       expect(object).to have_received(:mount).with(hash_including(
-        ::Scrapbook::Engine => '/book',
+        Scrapbook::Engine => '/book',
         defaults: {'.book': 'book'},
         as: 'book_scrapbook'
       ))
@@ -37,7 +37,7 @@ RSpec.describe Scrapbook::Routing do
         object.scrapbook('book', at: path)
 
         expect(object).to have_received(:mount).with(hash_including(
-          ::Scrapbook::Engine => path,
+          Scrapbook::Engine => path,
           defaults: {'.book': 'book'},
           as: 'book_scrapbook'
         ))
