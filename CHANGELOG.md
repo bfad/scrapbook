@@ -12,6 +12,8 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 ### Added
 
+- Support for Ruby 3.2 versions. (CI testing matrix now adds support.)
+
 - Turbo from the Hotwire stack. To get this functionality, you may need to add the following
   to your Sprocket's "manifest.js" file: `//= link scrapbook/application.js`.
 
@@ -22,6 +24,10 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 - The navigation tree now using Turbo and custom JavaScript to behave like a file / folder
   navigation tree.
+
+  ### Deprecated
+
+  - Support for Ruby 2.7.x is now deprecated and could be removed at anytime in the future.
 
   ### Removed
 
