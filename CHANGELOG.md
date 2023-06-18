@@ -10,11 +10,6 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 [Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.2.2...HEAD)
 
-### Changed
-
-- The navigation tree now using Turbo and custom JavaScript to behave like a file / folder
-  navigation tree.
-
 ### Added
 
 - Turbo from the Hotwire stack. To get this functionality, you may need to add the following
@@ -22,6 +17,16 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 - Configuring the Sprocket's "manifest.js" file to include Scrapbook's "application.js" file
   in the install generator.
+
+### Changed
+
+- The navigation tree now using Turbo and custom JavaScript to behave like a file / folder
+  navigation tree.
+
+  ### Removed
+
+  - The `Scrapbook::ApplicationMailer` and the entire mailer directory. I believe this was
+    created automatically when the engine was generated, but Scrapbook doesn't use mailers.
 
 ## 0.2.2 (2022-09-30)
 
