@@ -8,7 +8,9 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 ## Unreleased
 
-[Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.2.2...HEAD)
+[Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.3.0...HEAD)
+
+## 0.3.0 (2023-06-18)
 
 ### Added
 
@@ -33,6 +35,8 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
   - The `Scrapbook::ApplicationMailer` and the entire mailer directory. I believe this was
     created automatically when the engine was generated, but Scrapbook doesn't use mailers.
+
+[0.3.0 commits](https://github.com/bfad/scrapbook/compare/v0.2.2...v0.3.0)
 
 ## 0.2.2 (2022-09-30)
 
