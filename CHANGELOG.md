@@ -8,11 +8,14 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 ## Unreleased
 
-[Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.3.0...HEAD)
+[Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.3.1...HEAD)
 
 ### Fixed
+
 - Added in the "vendor" folder as part of the gem so that the turbo javascript stored there
   in the source tree will be in the gem too.
+
+[0.3.1 commits](https://github.com/bfad/scrapbook/compare/v0.3.0...v0.3.1)
 
 ## 0.3.0 (2023-06-18)
 
