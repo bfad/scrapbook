@@ -2,11 +2,17 @@
 
 module Scrapbook
   # @todo Document this controller
+  # Handles requests for specific pages — either a full page load, or Turbo Drive request
+  # for navigation.
+  # Handles requests to display a specifc page — both for the Scrapbook application itself
+  # and the content within the user's Scrapbook.
   class PagesController < ApplicationController
     self.view_paths = Engine.config.paths['app/views'].to_a
 
     layout -> { false if request.headers.include?('Turbo-Frame') }
 
+    # Displays the requested page for both full page loads, or Turbo Drive requests from
+    # page navigation.
     def show
       return head(:not_found) if (scrapbook = find_scrapbook).nil?
 
@@ -20,6 +26,9 @@ module Scrapbook
       end
     end
 
+    # Handles translating the path to look up and generate the content from the Scrapbook.
+    # The content could be a template page, a template for a directory, the default content
+    # for directories without associated content pages, or just a raw file (like an image).
     def raw
       return head(:not_found) if (scrapbook = find_scrapbook).nil?
 
