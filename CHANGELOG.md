@@ -8,7 +8,17 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 ## Unreleased
 
-[Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.3.1...HEAD)
+[Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.3.2...HEAD)
+
+## 0.3.2
+
+### Added
+
+- Support for Rails 7.1.x. (Bumped Rails dependency range and added it to CI.)
+
+[0.3.2 commits](https://github.com/bfad/scrapbook/compare/v0.3.1...v0.3.2)
+
+## 0.3.1
 
 ### Fixed
 
