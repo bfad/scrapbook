@@ -14,9 +14,7 @@ module Scrapbook
     # Displays the requested page for both full page loads, or Turbo Drive requests from
     # page navigation.
     def show
-      return head(:not_found) if (scrapbook = find_scrapbook).nil?
-
-      pathname = calculate_pathname(scrapbook, params[:id])
+      return head(:not_found) if scrapbook.nil?
 
       if request.headers['Turbo-Frame']&.start_with?('path_')
         render partial: 'layouts/scrapbook/folder_listing',
@@ -30,10 +28,7 @@ module Scrapbook
     # The content could be a template page, a template for a directory, the default content
     # for directories without associated content pages, or just a raw file (like an image).
     def raw
-      return head(:not_found) if (scrapbook = find_scrapbook).nil?
-
-      pathname = calculate_pathname(scrapbook, params[:id])
-      template = calculate_template
+      return head(:not_found) if scrapbook.nil?
 
       if scrapbook_template_exists?(scrapbook, template)
         prepend_view_path(scrapbook.root)
@@ -53,21 +48,31 @@ module Scrapbook
 
     private
 
-    def find_scrapbook
-      return nil if book_name.blank?
+    def scrapbook
+      return @scrapbook if defined?(@scrapbook)
 
-      scrapbook_path = Engine.config.scrapbook.paths[book_name]
-      scrapbook_path && Scrapbook.new(scrapbook_path)
+      @scrapbook = if book_name.blank?
+        nil
+      else
+        scrapbook_path = Engine.config.scrapbook.paths[book_name]
+        scrapbook_path && Scrapbook.new(scrapbook_path)
+      end
     end
 
-    def calculate_pathname(scrapbook, path)
-      scrapbook.pages_pathname.join(path || '')
+    def pathname
+      return @pathname if defined?(@pathname)
+
+      @pathname = scrapbook.pages_pathname.join(params[:id] || '')
     end
 
-    def calculate_template
-      return 'pages' if params[:id].blank?
+    def template
+      return @template if defined?(@template)
 
-      "pages/#{params[:id].delete_suffix('.html')}"
+      @template = if params[:id].blank?
+        'pages'
+      else
+        "pages/#{params[:id].delete_suffix('.html')}"
+      end
     end
 
     def scrapbook_template_exists?(scrapbook, template)
