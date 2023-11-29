@@ -8,6 +8,11 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 ## Unreleased
 
+### Changed
+
+- Renamed internal class `HelperForView` to `HelperForNavView` as it contains helpers for
+  the navigation tree.
+
 [Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.3.2...HEAD)
 
 ## 0.3.2

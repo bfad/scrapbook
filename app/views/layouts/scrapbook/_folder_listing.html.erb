@@ -1,5 +1,5 @@
 <%
-  helper = Scrapbook::HelperForView.new(self)
+  helper = Scrapbook::HelperForNavView.new(self)
   listing = Scrapbook::FolderListingViewModel.new(self, scrapbook, pathname)
   pathname_without_handler_exts = helper.remove_handler_exts_from(pathname)
   indentation_depth = (local_assigns[:nav_depth] || listing.depth) + 1

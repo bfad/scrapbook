@@ -39,7 +39,7 @@ module Scrapbook
     end
 
     def split_files_and_folders
-      helper = HelperForView.new(view)
+      helper = HelperForNavView.new(view)
 
       folders, files = pathname.children.each_with_object([[], []]) do |pname, acc|
         next if pname.basename.to_s.start_with?('.')

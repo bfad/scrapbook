@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Scrapbook::HelperForView do
+RSpec.describe Scrapbook::HelperForNavView do
   describe '#short_path_to' do
     subject(:path) { described_class.new(helper).short_path_to(pathname, scrapbook) }
 

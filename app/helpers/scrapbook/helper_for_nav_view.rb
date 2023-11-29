@@ -3,7 +3,7 @@
 module Scrapbook
   # View helpers for the Scrapbook gem. Doesn't use standard Rail's helper
   # modules to avoid any conflicts with host app
-  class HelperForView
+  class HelperForNavView
     def initialize(view)
       self.view = view
     end
