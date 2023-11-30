@@ -19,6 +19,12 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 - Renamed internal class `HelperForView` to `HelperForNavView` as it contains helpers for
   the navigation tree.
 
+### Deprecated
+
+- If you are using either `scrapbook` or `pathname` in your Scrapbook pages, they are now
+  deprecated and will be removed in a future release. Instead, use the new `sb` helper
+  method: `sb.scrapbook` and `sb.pathname`.
+
 [Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.3.2...HEAD)
 
 ## 0.3.2

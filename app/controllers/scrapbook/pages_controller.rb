@@ -33,10 +33,12 @@ module Scrapbook
       if scrapbook_template_exists?(scrapbook, template)
         prepend_view_path(scrapbook.root)
         render template: template,
+          # DEPRECATED: The locals "scrapbook" and "pathname". Use `sb.scrapbook` and `sb.pathname` instead.
           locals: {scrapbook: scrapbook, pathname: pathname},
           layout: 'layouts/scrapbook/host_application'
       elsif pathname.directory?
         render '/pages',
+          # DEPRECATED: The locals "scrapbook" and "pathname". Use `sb.scrapbook` and `sb.pathname` instead.
           locals: {scrapbook: scrapbook, pathname: pathname},
           layout: 'layouts/scrapbook/host_application'
       elsif pathname.exist?
