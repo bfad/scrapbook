@@ -8,6 +8,12 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 ## Unreleased
 
+### Added
+
+- Added a Rails helper method named `sb` that returns an object that will be used to create
+  helper methods that can be used inside Scrapbook pages. For example, if you wanted access
+  to the Scrapbook object inside a Scrapbook page template, you could call `sb.scrapbook`.
+
 ### Changed
 
 - Renamed internal class `HelperForView` to `HelperForNavView` as it contains helpers for

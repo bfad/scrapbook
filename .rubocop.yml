@@ -39,6 +39,9 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Max: 20
 
+Naming/MemoizedInstanceVariableName:
+  EnforcedStyleForLeadingUnderscores: optional
+
 RSpec:
   Language:
     Expectations:
