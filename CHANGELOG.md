@@ -14,6 +14,9 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
   helper methods that can be used inside Scrapbook pages. For example, if you wanted access
   to the Scrapbook object inside a Scrapbook page template, you could call `sb.scrapbook`.
 
+- Added `sb.render_source` helper method that will output the source of a page wrapped in
+  `<pre><code>` tags.
+
 ### Changed
 
 - Renamed internal class `HelperForView` to `HelperForNavView` as it contains helpers for
