@@ -17,6 +17,9 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 - Added `sb.render_source` helper method that will output the source of a page wrapped in
   `<pre><code>` tags.
 
+- Added `sb.render_with_source` helper method which allows you to render the source of a
+  page (using `sb.render_source`) and then render the page itself within a `<div>` tag.
+
 ### Changed
 
 - Renamed internal class `HelperForView` to `HelperForNavView` as it contains helpers for

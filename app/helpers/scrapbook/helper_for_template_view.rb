@@ -31,6 +31,26 @@ module Scrapbook
       tag.pre(tag.code(view.lookup_context.find(view_name, [], !partial.nil?).source))
     end
 
+    # Takes in a relative path to a scrapbook page and renders its source code followed by
+    # rendering the page itself. You specify the page as either a "template" or "partial"
+    # path similarly to how you would render a view in Rails, and you can pass in `locals`
+    # too.
+    #
+    # @param (see #render_source)
+    # @param locals [Hash] a key-value hash whose keys are the names of locals to assign
+    #   when the page is rendered.
+    # @return [String] the source code of a file wrapped in "<pre><code>" tags followed by
+    #   rendering the page itself wrapped in a "<div>".
+    def render_with_source(template: nil, partial: nil, locals: {})
+      # NOTE: Parameter validation of "template" and "partial" handled `render_source`.
+      source = render_source(template: template, partial: partial)
+      render_params = {locals: locals}
+      render_params[partial.nil? ? :template : :partial] =
+        pathname.relative_path_from(scrapbook.root).dirname.join(partial || template).to_s
+
+      source + tag.div(view.render(**render_params))
+    end
+
     private
 
     attr_accessor :view
