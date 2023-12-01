@@ -16,14 +16,10 @@ Layout/FirstHashElementIndentation:
   EnforcedStyle: consistent
 
 Layout/MultilineMethodCallBraceLayout:
-  EnforcedStyle: new_line
-
-Layout/MultilineMethodCallBraceLayout:
   Enabled: false
 
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
-  rubocop: warning
 
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
