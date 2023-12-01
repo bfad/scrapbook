@@ -67,14 +67,14 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 - The navigation tree now using Turbo and custom JavaScript to behave like a file / folder
   navigation tree.
 
-  ### Deprecated
+### Deprecated
 
-  - Support for Ruby 2.7.x is now deprecated and could be removed at anytime in the future.
+- Support for Ruby 2.7.x is now deprecated and could be removed at anytime in the future.
 
-  ### Removed
+### Removed
 
-  - The `Scrapbook::ApplicationMailer` and the entire mailer directory. I believe this was
-    created automatically when the engine was generated, but Scrapbook doesn't use mailers.
+- The `Scrapbook::ApplicationMailer` and the entire mailer directory. I believe this was
+  created automatically when the engine was generated, but Scrapbook doesn't use mailers.
 
 [0.3.0 commits](https://github.com/bfad/scrapbook/compare/v0.2.2...v0.3.0)
 
