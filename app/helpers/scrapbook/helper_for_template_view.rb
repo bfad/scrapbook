@@ -37,18 +37,24 @@ module Scrapbook
     # too.
     #
     # @param (see #render_source)
+    # @param source_first [Boolean] when true, the source code is displayed before the
+    #   rendered view. (Default: false)
     # @param locals [Hash] a key-value hash whose keys are the names of locals to assign
     #   when the page is rendered.
     # @return [String] the source code of a file wrapped in "<pre><code>" tags followed by
     #   rendering the page itself wrapped in a "<div>".
-    def render_with_source(template: nil, partial: nil, locals: {})
+    def render_with_source(template: nil, partial: nil, source_first: false, locals: {})
       # NOTE: Parameter validation of "template" and "partial" handled `render_source`.
       source = render_source(template: template, partial: partial)
       render_params = {locals: locals}
       render_params[partial.nil? ? :template : :partial] =
         pathname.relative_path_from(scrapbook.root).dirname.join(partial || template).to_s
 
-      source + tag.div(view.render(**render_params))
+      if source_first
+        source + tag.div(view.render(**render_params))
+      else
+        view.render(**render_params) + tag.div(source)
+      end
     end
 
     private

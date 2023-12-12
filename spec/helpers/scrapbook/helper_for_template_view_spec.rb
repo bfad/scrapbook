@@ -51,34 +51,51 @@ RSpec.describe Scrapbook::HelperForTemplateView do
   end
 
   describe '#render_with_source' do
-    it "renders a template's source code followed by rendering the template itself" do
+    it 'renders a template followed by its source code' do
       source = File.read(PathnameHelpers.new.pages_pathname.join('components/austen.html.slim'))
       expect(sb.render_with_source(template: 'components/austen'))
         .to eql(
-          "<pre><code>#{source}</code></pre><div><h1>Universal truth</h1>" \
-          '<p>Single person with a large fortune seeks a marriage partner.</p></div>'
+          '<h1>Universal truth</h1><p>Single person with a large fortune seeks a marriage partner.</p>' \
+          "<div><pre><code>#{source}</code></pre></div>"
         )
     end
 
-    it "renders a partial's source code followed by rendering the partial itself" do
+    it 'renders a partial followed by its source code' do
       source = File.read(PathnameHelpers.new.pages_pathname.join('components/_partiality.html.slim'))
       expect(sb.render_with_source(partial: 'components/partiality'))
-        .to eql("<pre><code>#{source}</code></pre><div><p>I am partial to pecan pie!</p></div>")
+        .to eql("<p>I am partial to pecan pie!</p><div><pre><code>#{source}</code></pre></div>")
     end
 
     it_behaves_like 'requires "template" or "partial" named parameter and the file to exist'
+
+    context 'when configured to dispaly source code first' do
+      it "renders a template's source code followed by rendering the template itself" do
+        source = File.read(PathnameHelpers.new.pages_pathname.join('components/austen.html.slim'))
+        expect(sb.render_with_source(template: 'components/austen', source_first: true))
+          .to eql(
+            "<pre><code>#{source}</code></pre><div><h1>Universal truth</h1>" \
+            '<p>Single person with a large fortune seeks a marriage partner.</p></div>'
+          )
+      end
+
+      it "renders a partial's source code followed by rendering the partial itself" do
+        source = File.read(PathnameHelpers.new.pages_pathname.join('components/_partiality.html.slim'))
+        expect(sb.render_with_source(partial: 'components/partiality', source_first: true))
+          .to eql("<pre><code>#{source}</code></pre><div><p>I am partial to pecan pie!</p></div>")
+      end
+    end
 
     context 'when passed local variables' do
       it 'passes the locals to the template' do
         source = File.read(PathnameHelpers.new.pages_pathname.join('beta/locals.html.slim'))
         expect(sb.render_with_source(template: 'beta/locals', locals: {name: 'World!'}))
-          .to eql("<pre><code>#{ERB::Util.html_escape_once(source)}</code></pre><div><p>Hello, World!</p></div>")
+          .to eql("<p>Hello, World!</p><div><pre><code>#{ERB::Util.html_escape_once(source)}</code></pre></div>")
       end
 
       it 'passes the locals to the partial' do
         source = File.read(PathnameHelpers.new.pages_pathname.join('beta/_locals.html.slim'))
         expect(sb.render_with_source(partial: 'beta/locals', locals: {x: 'a', y: 'b'}))
-          .to eql("<pre><code>#{source}</code></pre><div><ul><li>a</li><li>b</li></ul></div>")
+          .to eql("<ul><li>a</li><li>b</li></ul><div><pre><code>#{source}</code></pre></div>")
       end
     end
   end
