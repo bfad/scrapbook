@@ -11,12 +11,30 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - run: bundle exec rubocop
 
-  test:
+  test_legacy:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
         ruby-version: ['2.7', '3.0', '3.1', '3.2']
         rails-version: ['6.1', '7.0', '7.1']
+    runs-on: ${{ matrix.os }}
+    env:
+      RAILS_VERSION: "${{ matrix.rails-version }}"
+    name: ${{ format('test ({0}, Ruby {1}, Rails {2})', matrix.os, matrix.ruby-version, matrix.rails-version) }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - run: bundle exec rspec
+
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        ruby-version: ['3.2', '3.3']
+        rails-version: ['7.2', '8.0']
     runs-on: ${{ matrix.os }}
     env:
       RAILS_VERSION: "${{ matrix.rails-version }}"

@@ -20,6 +20,8 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 - Added `sb.render_with_source` helper method which allows you to render the source of a
   page (using `sb.render_source`) and then render the page itself within a `<div>` tag.
 
+- Added support for Rails 8.0.
+
 ### Changed
 
 - Renamed internal class `HelperForView` to `HelperForNavView` as it contains helpers for
