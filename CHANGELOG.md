@@ -33,6 +33,10 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
   deprecated and will be removed in a future release. Instead, use the new `sb` helper
   method: `sb.scrapbook` and `sb.pathname`.
 
+### Removed
+
+- GitHub CI tests are no longer working for Rails 6.1, so I'm dropping support for it.
+
 [Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.3.2...HEAD)
 
 ## 0.3.2
