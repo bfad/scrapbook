@@ -8,6 +8,10 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 ## Unreleased
 
+[Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.4.0...HEAD)
+
+## 0.4.0
+
 ### Added
 
 - Added a Rails helper method named `sb` that returns an object that will be used to create
@@ -37,7 +41,7 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 - GitHub CI tests are no longer working for Rails 6.1, so I'm dropping support for it.
 
-[Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.3.2...HEAD)
+[Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.3.2...v0.4.0)
 
 ## 0.3.2
 
