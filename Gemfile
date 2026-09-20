@@ -15,7 +15,7 @@ gem 'rails-controller-testing'
 gem 'rspec'
 gem 'rspec-rails'
 
-gem 'rubocop', '~> 1.26', require: false
+gem 'rubocop', '1.52.1', require: false
 gem 'rubocop-performance', require: false
 gem 'rubocop-rails', require: false
 gem 'rubocop-rspec', require: false
