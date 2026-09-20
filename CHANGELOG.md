@@ -8,12 +8,16 @@ may consider to be a bug might be behavior a consumer relies upon in their proje
 
 ## Unreleased
 
+[Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.4.0...HEAD)
+
+## 0.4.1
+
 ### Added
 
 - Added support for Rails 8.1.
 - Added support for Ruby 4.0.
 
-[Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.4.0...HEAD)
+[Unreleased commits](https://github.com/bfad/scrapbook/compare/v0.4.0...v0.4.1)
 
 ## 0.4.0
 
